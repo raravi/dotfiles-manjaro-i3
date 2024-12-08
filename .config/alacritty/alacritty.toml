@@ -1,0 +1,35 @@
+
+[font]
+size = 6
+
+  [font.offset]
+  x = 0
+  y = 3
+
+  [font.normal]
+  family = "DejaVu Sans Mono"
+  style = "Book"
+
+  [font.bold]
+  family = "DejaVu Sans Mono"
+  style = "Bold"
+
+  [font.italic]
+  family = "DejaVu Sans Mono"
+  style = "Oblique"
+
+  [font.bold_italic]
+  family = "DejaVu Sans Mono"
+  style = "Bold Oblique"
+
+[window.padding]
+x = 6
+y = 6
+
+[terminal]
+shell = "zsh"
+
+[general]
+import = [
+    "~/.config/alacritty/themes/tokyo-night.toml"
+]
