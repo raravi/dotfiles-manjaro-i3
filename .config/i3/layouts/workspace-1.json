@@ -1,0 +1,50 @@
+// vim:ts=4:sw=4:et
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 600,
+       "width": 800,
+       "x": 560,
+       "y": 720
+    },
+    "marks": [],
+    "name": "Spotify Premium",
+    "percent": 0.45,
+    "swallows": [
+       {
+          "class": "^Spotify$"
+       // "instance": "^spotify$",
+       // "machine": "^rArAvizBlade$",
+       // "title": "^Spotify\\ Premium$",
+       // "window_role": "^spotify$"
+       }
+    ],
+    "type": "con"
+}
+
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 600,
+       "width": 800,
+       "x": 0,
+       "y": 0
+    },
+    "marks": [],
+    "name": "Terminal",
+    "percent": 0.55,
+    "swallows": [
+       {
+            "class": "^Alacritty$"
+       // "instance": "^Alacritty$",
+       // "machine": "^rArAviz\\-Blade\\-Manjaro$",
+       // "title": "^i3\\-save\\-tree\\ \\-\\-workspace\\ 1\\ \\>\\ \\~\\/\\.config\\/i3\\/layouts\\/workspace\\-1\\.json$"
+       }
+    ],
+    "type": "con"
+}
+

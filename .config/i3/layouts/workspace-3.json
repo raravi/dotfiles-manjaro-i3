@@ -1,0 +1,26 @@
+// vim:ts=4:sw=4:et
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 1080,
+       "width": 1251,
+       "x": 0,
+       "y": 0
+    },
+    "marks": [],
+    "name": "dotfiles/.config/i3/config at main · raravi/dotfiles — Zen Browser",
+    "percent": 1,
+    "swallows": [
+       {
+       // "class": "^zen\\-alpha$",
+       // "instance": "^Navigator$",
+       // "machine": "^rArAvizBlade$",
+       // "title": "^dotfiles\\/\\.config\\/i3\\/config\\ at\\ main\\ ·\\ raravi\\/dotfiles\\ \\—\\ Zen\\ Browser$",
+          "window_role": "^browser$"
+       }
+    ],
+    "type": "con"
+}
+
