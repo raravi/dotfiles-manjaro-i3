@@ -29,6 +29,10 @@ exec --no-startup-id nitrogen --restore &
 # Enable Easy Effects
 exec_always easyeffects --gapplication-service
 
+# Unlocking KWallet automatically in a window manager (needed by Skype to stay logged in after each login)
+# To unlock KWallet protected by the login password, it is necessary to add
+exec --no-startup-id /usr/lib/pam_kwallet_init
+
 # set desktop background with custom effect
 exec --no-startup-id betterlockscreen -u ~/Pictures/Walls/tokyo_pink.png
 
