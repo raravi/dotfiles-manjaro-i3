@@ -7,7 +7,7 @@ These are useful on first login
 ```bash
 pamac install alacritty neovim xclip
 ```
-Note: nvim needs a clipboard tool to copy contents from a buffer to another
+Note: nvim needs a clipboard tool to copy contents (using CTRL+SHIFT+C / CTRL+SHIFT+V commands) from a buffer to another.
 
 These are for long-term use. If a second Windows Manager is going to be installed, then\
 these can be installed in it.
@@ -63,5 +63,3 @@ the below command and run it to setup the required monitor setup.
 xrandr --output eDP-1 --mode 1920x1080 --pos 0x480 --rate 144.00 --scale 1.00 --output DP-1-0.2 --primary --mode 2560x1440 --pos 1920x120 --rate 59.95 --scale 1.00 --output DP-1-0.3 --mode 1920x1080 --pos 4480x0 --scale 1.00 --rotate right
 ```
 Note: The actual names of Monitors will change (for e.g., DP-1-0.2 may become DP-4)
-pamac build zen-browser-avx2-bin
-
