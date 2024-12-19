@@ -50,6 +50,19 @@ pamac build zen-browser-avx2-bin
 ```
 Note: Zen Browser has a special package for newer CPUs, including my Razer Blade one.
 
+For rounded borders on i3 & Picom
+1. Git clone [xborder](https://github.com/deter0/xborder) & follow Usage section on the README. 
+2. Install `libwnck3`, as its a dependency.
+3. `xborders` will run without issues now.
+
+For installing python dependencies through `pip` on Arch Linux, use the following commands:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+```
+Note: See [this Stack Overflow thread](https://stackoverflow.com/questions/75602063/pip-install-r-requirements-txt-is-failing-this-environment-is-externally-mana) for more context.
+
 ## Set Multi Monitor layout
 
 In order to set up 2 monitors, use the below query to get the current setup
