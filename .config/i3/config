@@ -24,7 +24,7 @@ font pango:monospace 8
 exec --no-startup-id dex --autostart --environment i3
 
 # Start Nitrogen to load walls
-exec --no-startup-id nitrogen --restore &
+exec_always --no-startup-id nitrogen --restore &
 
 # Enable Easy Effects
 exec_always easyeffects --gapplication-service
