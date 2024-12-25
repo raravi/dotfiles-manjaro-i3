@@ -34,7 +34,7 @@ exec_always easyeffects --gapplication-service
 exec --no-startup-id /usr/lib/pam_kwallet_init
 
 # set desktop background with custom effect
-exec --no-startup-id betterlockscreen -u ~/Pictures/Walls/tokyo_pink.png
+# exec --no-startup-id betterlockscreen -u ~/Pictures/Walls/tokyo_pink.png
 
 # Set Multi Monitor layout
 exec --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --pos 0x480 --rate 144.00 --scale 1.00 --output DP-1-0.2 --primary --mode 2560x1440 --pos 1920x120 --rate 59.95 --scale 1.00 --output DP-1-0.3 --mode 1920x1080 --pos 4480x0 --scale 1.00 --rotate right
@@ -55,7 +55,7 @@ exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 
 # Notification Daemon & Center
-exec --no-startup-id deadd-notification-center
+exec_always --no-startup-id deadd-notification-center
 
 #Hide window title bar
 default_border pixel 1
