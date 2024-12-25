@@ -1,0 +1,8 @@
+width: 500
+
+notification:
+  image:
+    size: 140
+  popup:
+    default-timeout: 3000
+
