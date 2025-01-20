@@ -23,8 +23,8 @@ size = 6
   style = "Bold Oblique"
 
 [window.padding]
-x = 6
-y = 6
+x = 10
+y = 10
 
 [terminal]
 shell = "zsh"
