@@ -42,6 +42,9 @@ exec --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --pos 0x480 --rate 1
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
+# Increase Suspend to 30 mins
+exec_always --no-startup-id xset dpms 1800 1800 1800 &
+
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 # exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
