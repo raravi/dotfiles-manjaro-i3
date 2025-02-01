@@ -38,7 +38,8 @@ BORDER_COLOR="${BORDER_COLOR:-#222222}"
 
 # Options not related to colors
 ROFI_TEXT="${ROFI_TEXT:-Menu:}"
-ROFI_OPTIONS=(${ROFI_OPTIONS:--theme-str 'window {width: 11%; border: 2;} listview {scrollbar: false;}' -location 3})
+#ROFI_OPTIONS=(${ROFI_OPTIONS:--theme-str 'window {width: 11%; border: 2;} listview {scrollbar: false;}' -location 3})
+ROFI_OPTIONS=(${ROFI_OPTIONS:--theme-str 'window {width: 180px; height:185px;} listview {scrollbar: false;}' -location 3})
 
 # Zenity options
 ZENITY_TITLE="${ZENITY_TITLE:-Menu}"
@@ -137,7 +138,7 @@ function prepare_launcher() {
     rofi_colors=(-bc "${BORDER_COLOR}" -bg "${BG_COLOR}" -fg "${FG_COLOR}" \
         -hlfg "${HLFG_COLOR}" -hlbg "${HLBG_COLOR}")
     launcher_exe="rofi"
-    launcher_options=(-dmenu -i -lines "${menu_nrows}" -p "${ROFI_TEXT}" \
+    launcher_options=(-dmenu -config "~/.config/rofi/config-dmenu.rasi" -i -lines "${menu_nrows}" -p "${ROFI_TEXT}" \
         "${rofi_colors[@]}" "${ROFI_OPTIONS[@]}")
   elif [[ "$1" == "zenity" ]]; then
     launcher_exe="zenity"
