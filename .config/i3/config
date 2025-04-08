@@ -276,8 +276,8 @@ gaps inner 18
 gaps outer 0
 
 # Transparency with picom compositor
-exec_always picom -f
+# exec_always picom --config ~/.config/picom/picom.conf -f
 
 # Rounded Borders on Windows
-exec_always --no-startup-id $HOME/.config/xborder/./launch.sh
+# exec_always --no-startup-id $HOME/.config/xborder/./launch.sh
 
