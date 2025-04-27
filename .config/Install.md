@@ -12,7 +12,7 @@ Note: nvim needs a clipboard tool to copy contents (using CTRL+SHIFT+C / CTRL+SH
 These are for long-term use. If a second Windows Manager is going to be installed, then\
 these can be installed in it.
 ```bash
-pamac install spotify discord skypeforlinux-bin
+pamac install spotify discord teams-for-linux
 ```
 
 ### i3 Tiling Windows Manager
