@@ -10,15 +10,40 @@
        "y": 0
     },
     "marks": [],
-    "name": "dotfiles/.config/i3/config at main · raravi/dotfiles — Zen Browser",
-    "percent": 1,
+    "name": "i3: Layout saving in i3 — Zen Browser",
+    "percent": 0.5,
     "swallows": [
        {
-       // "class": "^zen\\-alpha$",
+          "class": "^zen$"
        // "instance": "^Navigator$",
-       // "machine": "^rArAvizBlade$",
-       // "title": "^dotfiles\\/\\.config\\/i3\\/config\\ at\\ main\\ ·\\ raravi\\/dotfiles\\ \\—\\ Zen\\ Browser$",
-          "window_role": "^browser$"
+       // "machine": "^rArAviz\\-Blade\\-Manjaro$",
+       // "title": "^i3\\:\\ Layout\\ saving\\ in\\ i3\\ \\—\\ Zen\\ Browser$",
+       // "window_role": "^browser$"
+       }
+    ],
+    "type": "con"
+}
+
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 1354,
+       "width": 1251,
+       "x": 3210,
+       "y": 139
+    },
+    "marks": [],
+    "name": "Individual Behaviour",
+    "percent": 0.5,
+    "swallows": [
+       {
+          "class": "^Notion$"
+       // "instance": "^notion$",
+       // "machine": "^rArAviz\\-Blade\\-Manjaro$",
+       // "title": "^Individual\\ Behaviour$",
+       // "window_role": "^browser\\-window$"
        }
     ],
     "type": "con"

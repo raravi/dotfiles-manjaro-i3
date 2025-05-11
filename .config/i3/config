@@ -192,9 +192,10 @@ exec --no-startup-id "i3-msg 'workspace 5; append_layout /home/raravi/.config/i3
 #assign [class="^Alacritty"]         1
 #assign [class="^kate"]              2
 #assign [class="^brave-browser"]     3
-#assign [class="^zen-alpha"]         3
+assign [class="^zen"]                3
 #assign [class="^steam"]             3
 #assign [class="^heroic"]            3
+assign [class="^Notion"]            3
 assign [class="^discord"]           5
 
 # Always open workspaces in certain outputs
@@ -207,6 +208,7 @@ workspace 4 output primary
 exec i3-msg 'exec spotify'
 exec i3-msg 'exec alacritty'
 exec i3-msg 'exec zen-browser'
+exec i3-msg 'exec notion-app --ignore-gpu-blocklist --disable-features=UseOzonePlatform --enable-features=VaapiVideoDecoder --use-gl=desktop --enable-gpu-rasterization --enable-zero-copy'
 exec i3-msg 'exec discord --ignore-gpu-blocklist --disable-features=UseOzonePlatform --enable-features=VaapiVideoDecoder --use-gl=desktop --enable-gpu-rasterization --enable-zero-copy'
 
 # reload the configuration file
