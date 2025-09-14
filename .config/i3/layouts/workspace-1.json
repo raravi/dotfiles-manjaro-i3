@@ -4,19 +4,19 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 600,
-       "width": 800,
-       "x": 560,
-       "y": 720
+       "height": 994,
+       "width": 835,
+       "x": 19,
+       "y": 499
     },
     "marks": [],
     "name": "Spotify Premium",
-    "percent": 0.45,
+    "percent": 0.6,
     "swallows": [
        {
           "class": "^Spotify$"
        // "instance": "^spotify$",
-       // "machine": "^rArAvizBlade$",
+       // "machine": "^rArAviz\\-Blade\\-Manjaro$",
        // "title": "^Spotify\\ Premium$",
        // "window_role": "^spotify$"
        }
@@ -35,11 +35,11 @@
        "y": 0
     },
     "marks": [],
-    "name": "Terminal",
-    "percent": 0.55,
+    "name": "i3-save-tree --workspace 1 > ~/.config/i3/layouts/workspace-1.json",
+    "percent": 0.4,
     "swallows": [
        {
-            "class": "^Alacritty$"
+          "class": "^Alacritty$"
        // "instance": "^Alacritty$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
        // "title": "^i3\\-save\\-tree\\ \\-\\-workspace\\ 1\\ \\>\\ \\~\\/\\.config\\/i3\\/layouts\\/workspace\\-1\\.json$"

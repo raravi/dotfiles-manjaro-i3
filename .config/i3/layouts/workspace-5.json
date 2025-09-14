@@ -13,19 +13,19 @@
             "current_border_width": 1,
             "floating": "auto_off",
             "geometry": {
-               "height": 720,
-               "width": 1280,
-               "x": 320,
-               "y": 660
+               "height": 907,
+               "width": 1042,
+               "x": 4499,
+               "y": 946
             },
             "marks": [],
-            "name": "Friends - Discord",
+            "name": "Discord",
             "percent": 1,
             "swallows": [
                {
                   "class": "^discord$"
                // "instance": "^discord$",
-               // "machine": "^rArAvizBlade$",
+               // "machine": "^rArAviz\\-Blade\\-Manjaro$",
                // "title": "^Friends\\ \\-\\ Discord$",
                // "window_role": "^browser\\-window$"
                }

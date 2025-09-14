@@ -4,21 +4,21 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 1080,
-       "width": 1251,
-       "x": 0,
-       "y": 0
+       "height": 907,
+       "width": 1042,
+       "x": 4498,
+       "y": 18
     },
     "marks": [],
-    "name": "i3: Layout saving in i3 — Zen Browser",
-    "percent": 0.5,
+    "name": "Brave Browser",
+    "percent": 0.688235294117647,
     "swallows": [
        {
-          "class": "^zen$"
+       // "class": "^brave-browser$"
        // "instance": "^Navigator$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
-       // "title": "^i3\\:\\ Layout\\ saving\\ in\\ i3\\ \\—\\ Zen\\ Browser$",
-       // "window_role": "^browser$"
+       // "title": "^WhatsApp\\ \\—\\ Zen\\ Browser$",
+          "window_role": "^browser$"
        }
     ],
     "type": "con"
@@ -29,20 +29,20 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 1354,
-       "width": 1251,
-       "x": 3210,
+       "height": 1402,
+       "width": 867,
+       "x": 3594,
        "y": 139
     },
     "marks": [],
-    "name": "Individual Behaviour",
-    "percent": 0.5,
+    "name": "Notion",
+    "percent": 0.311764705882353,
     "swallows": [
        {
           "class": "^Notion$"
        // "instance": "^notion$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
-       // "title": "^Individual\\ Behaviour$",
+       // "title": "^My\\ Life$",
        // "window_role": "^browser\\-window$"
        }
     ],

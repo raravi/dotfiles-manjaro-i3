@@ -207,7 +207,7 @@ workspace 4 output primary
 # Open Apps
 exec i3-msg 'exec spotify'
 exec i3-msg 'exec alacritty'
-exec i3-msg 'exec zen-browser'
+exec i3-msg 'exec brave'
 exec i3-msg 'exec notion-app --ignore-gpu-blocklist --disable-features=UseOzonePlatform --enable-features=VaapiVideoDecoder --use-gl=desktop --enable-gpu-rasterization --enable-zero-copy'
 exec i3-msg 'exec discord --ignore-gpu-blocklist --disable-features=UseOzonePlatform --enable-features=VaapiVideoDecoder --use-gl=desktop --enable-gpu-rasterization --enable-zero-copy'
 
