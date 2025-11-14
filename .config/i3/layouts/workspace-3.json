@@ -10,15 +10,15 @@
        "y": 18
     },
     "marks": [],
-    "name": "Brave Browser",
+    "name": "Inbox (31) - amith.raravi@gmail.com - Gmail - Brave",
     "percent": 0.688235294117647,
     "swallows": [
        {
-       // "class": "^brave-browser$"
-       // "instance": "^Navigator$",
+       // "class": "^Brave\\-browser$",
+       // "instance": "^brave\\-browser$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
-       // "title": "^WhatsApp\\ \\—\\ Zen\\ Browser$",
-          "window_role": "^browser$"
+       // "title": "^Inbox\\ \\(31\\)\\ \\-\\ amith\\.raravi\\@gmail\\.com\\ \\-\\ Gmail\\ \\-\\ Brave$",
+       // "window_role": "^browser$"
        }
     ],
     "type": "con"
@@ -35,11 +35,11 @@
        "y": 139
     },
     "marks": [],
-    "name": "Notion",
+    "name": "My Life",
     "percent": 0.311764705882353,
     "swallows": [
        {
-          "class": "^Notion$"
+       // "class": "^Notion$",
        // "instance": "^notion$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
        // "title": "^My\\ Life$",

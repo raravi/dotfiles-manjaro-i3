@@ -37,7 +37,8 @@ exec --no-startup-id /usr/lib/pam_kwallet_init
 # exec --no-startup-id betterlockscreen -u ~/Pictures/Walls/tokyo_pink.png
 
 # Set Multi Monitor layout
-exec --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --pos 0x480 --rate 144.00 --scale 1.00 --output DP-1-0.2 --primary --mode 2560x1440 --pos 1920x120 --rate 59.95 --scale 1.00 --output DP-1-0.3 --mode 1920x1080 --pos 4480x0 --scale 1.00 --rotate right
+# exec --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --pos 0x480 --rate 144.00 --scale 1.00 --output DP-1-0.2 --primary --mode 2560x1440 --pos 1920x120 --rate 59.95 --scale 1.00 --output DP-1-0.3 --mode 1920x1080 --pos 4480x0 --scale 1.00 --rotate right
+exec --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --pos 0x1320 --rate 144.00 --scale 1.00 --output DP-1-0.2 --primary --mode 2560x1080 --pos 1920x960 --scale 1.00 --output DP-1-0.3 --mode 2560x1440 --pos 4480x0 --scale 1.00 --rotate right
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
