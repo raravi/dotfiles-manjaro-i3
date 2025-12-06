@@ -41,12 +41,12 @@ window {
 
 textbox-prompt-colon {
     expand: 			            false;
-    str: 			                "";
+    str: 			                "🔍";
     border-radius:            100%;
     background-color:         transparent;
     text-color:               @FG;
-    padding:                  12px 20px 8px 12px;
-    font:			                "FontAwesome6FreeSolid 14";
+    padding:                  12px 24px 0px 12px;
+    font:			                "FontAwesome6FreeSolid 20";
 }
 
 prompt {
@@ -67,7 +67,7 @@ entry {
     border:                  	0px 0px 2px 0px;
     border-color:             @BDR;
     border-radius:            10px;
-    padding:                  8px;
+    padding:                  8px 8px 8px 24px;
 }
 
 inputbar {
