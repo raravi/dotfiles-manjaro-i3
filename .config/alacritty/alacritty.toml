@@ -7,20 +7,20 @@ size = 6
   y = 3
 
   [font.normal]
-  family = "DejaVu Sans Mono"
-  style = "Book"
-
+  family = "Adwaita Mono"
+  style = "Regular"
+  
   [font.bold]
-  family = "DejaVu Sans Mono"
+  family = "Adwaita Mono"
   style = "Bold"
 
   [font.italic]
-  family = "DejaVu Sans Mono"
-  style = "Oblique"
+  family = "Adwaita Mono"
+  style = "Italic"
 
   [font.bold_italic]
-  family = "DejaVu Sans Mono"
-  style = "Bold Oblique"
+  family = "Adwaita Mono"
+  style = "Bold Italic"
 
 [window.padding]
 x = 10
