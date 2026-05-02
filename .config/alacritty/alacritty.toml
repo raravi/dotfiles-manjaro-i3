@@ -32,4 +32,6 @@ shell = "zsh"
 [general]
 import = [
     "~/.config/alacritty/themes/tokyo-night.toml"
+#    "~/.config/alacritty/themes/catppuccin-latte.toml"
+#    "~/.config/alacritty/themes/catppuccin-frappe.toml"
 ]

@@ -12,7 +12,8 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.config/nvim/autoload/plugged')
 
   Plug 'folke/tokyonight.nvim' " Theme - Tokyo Night
-
+  Plug 'catppuccin/nvim', { 'branch': 'vim', 'as': 'catppuccin' } " Theme - catppuccin
+  
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-tree/nvim-web-devicons'
   Plug 'MunifTanjim/nui.nvim'
@@ -25,7 +26,10 @@ call plug#begin('~/.config/nvim/autoload/plugged')
   Plug 'lewis6991/gitsigns.nvim'
 
   Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+  Plug 'famiu/bufdelete.nvim'
 
   Plug 'kdheepak/lazygit.nvim'
+
+  Plug 'numToStr/Comment.nvim'
 
 call plug#end()
