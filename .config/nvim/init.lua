@@ -51,8 +51,6 @@ require('neogit').setup {
   kind = "split_below_all"
 }
 
-require('Comment').setup()
-
 vim.opt.number         = true       -- line numbering
 vim.opt.tabstop        = 2          -- tab space
 
@@ -98,6 +96,8 @@ vim.keymap.set('n', '<leader>bd', '<cmd>Bdelete<cr>', { desc = 'Buffer delete (k
 
 vim.keymap.set('n', '<leader>lg', '<cmd>LazyGit<cr>', { desc = 'Open lazy git' })
 
+vim.keymap.set('n', 'j', 'gj', { noremap = true })
+vim.keymap.set('n', 'k', 'gk', { noremap = true })
 vim.opt.whichwrap:append("<,>,[,],h,l") -- arrow keys wrap across lines
 
 vim.keymap.set('n', '<leader>e', '<cmd>Neotree focus<cr>', { desc = 'Focus neo-tree' })

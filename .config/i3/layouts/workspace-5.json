@@ -4,21 +4,21 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 720,
-       "width": 1280,
-       "x": 320,
-       "y": 180
+       "height": 1080,
+       "width": 1402,
+       "x": 518,
+       "y": 0
     },
     "marks": [],
-    "name": "Friends - Discord",
-    "percent": 0.5,
+    "name": "Alacritty - ArchWiki - Brave",
+    "percent": 0.65,
     "swallows": [
        {
-       // "class": "^discord$",
-       // "instance": "^discord$",
+       // "class": "^Brave\\-browser$",
+       // "instance": "^brave\\-browser$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
-       // "title": "^Friends\\ \\-\\ Discord$",
-       // "window_role": "^browser\\-window$"
+       // "title": "^Alacritty\\ \\-\\ ArchWiki\\ \\-\\ Brave$",
+         "window_role": "^browser$"
        }
     ],
     "type": "con"
@@ -29,21 +29,21 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 994,
-       "width": 833,
-       "x": 1087,
-       "y": 86
+       "height": 720,
+       "width": 1280,
+       "x": 320,
+       "y": 180
     },
     "marks": [],
-    "name": "xorg - xrandr fails randomly with \"Configure crtc X failed\" on dock with multiple monitors - Unix & Linux Stack Exchange - Brave",
-    "percent": 0.5,
+    "name": "Discord",
+    "percent": 0.35,
     "swallows": [
        {
-       // "class": "^Brave\\-browser$",
-       // "instance": "^brave\\-browser$",
+         "class": "^discord$"
+       // "instance": "^discord$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
-       // "title": "^xorg\\ \\-\\ xrandr\\ fails\\ randomly\\ with\\ \\\"Configure\\ crtc\\ X\\ failed\\\"\\ on\\ dock\\ with\\ multiple\\ monitors\\ \\-\\ Unix\\ \\&\\ Linux\\ Stack\\ Exchange\\ \\-\\ Brave$",
-       // "window_role": "^browser$"
+       // "title": "^\\#💋\\‖𝕋𝕙𝕖\\-𝕊𝕚𝕣𝕖𝕟\\-ℝ𝕠𝕠𝕞\\‖🔞\\ \\|\\ \\‧₊˚\\✧\\ 𝔸𝕚\\ 𝔸𝕣𝕥\\ 𝔸𝕣𝕔𝕙𝕚𝕧𝕖\\ \\✧˚₊\\‧\\ \\-\\ Discord$",
+       // "window_role": "^browser\\-window$"
        }
     ],
     "type": "con"
