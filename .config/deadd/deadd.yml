@@ -5,4 +5,8 @@ notification:
     size: 140
   popup:
     default-timeout: 4000
+  modifications:
+    - match:
+        app-name: "Brave"
+      script: "~/.config/deadd/parse-whatsapp-on-brave.sh"
 
