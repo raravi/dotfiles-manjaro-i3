@@ -25,7 +25,7 @@ require('neo-tree').setup {
   }
 }
 
-require("bufferline").setup{
+require("bufferline").setup {
   options = {
     indicator = {
       icon = '/ ',
@@ -109,7 +109,7 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
   callback = function() is_quitting = true end,
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function(args)
     if is_quitting then return end
     if vim.bo.filetype == "neo-tree" or vim.bo.buftype ~= "" then
@@ -128,3 +128,30 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
+-- Configure LSP Servers (built-in Neovim 0.11+)
+vim.lsp.config('ts_ls', {
+  init_options = { hostInfo = 'neovim' },
+})
+vim.lsp.config('eslint', {})
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('eslint')
+
+-- LSP Keymaps (auto-attached to buffers with LSP)
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
+  callback = function(ev)
+    vim.schedule(function()
+      local function map(lhs, rhs)
+        vim.api.nvim_buf_set_keymap(ev.buf, 'n', lhs, '<cmd>lua ' .. rhs .. '<CR>', { silent = true })
+      end
+      map('gd', 'vim.lsp.buf.definition()')
+      map('K', 'vim.lsp.buf.hover()')
+      map('gr', 'vim.lsp.buf.references()')
+      map('<leader>rn', 'vim.lsp.buf.rename()')
+      map('<leader>ca', 'vim.lsp.buf.code_action()')
+      map('<leader>d', 'vim.diagnostic.open_float()')
+      map('[d', 'vim.diagnostic.goto_prev()')
+      map(']d', 'vim.diagnostic.goto_next()')
+    end)
+  end,
+})
