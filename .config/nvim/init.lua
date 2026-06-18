@@ -155,3 +155,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end)
   end,
 })
+
+-- autocompletion
+require('blink.cmp').setup({
+  sources = {
+    default = { 'lsp', 'path', 'snippets', 'buffer' },
+  },
+  keymap = {
+    preset = 'default',
+    ['<CR>'] = { 'select_and_accept', 'fallback' },
+    ['<Tab>'] = { 'select_next', 'fallback' },
+    ['<S-Tab>'] = { 'select_prev', 'fallback' },
+  },
+})
+

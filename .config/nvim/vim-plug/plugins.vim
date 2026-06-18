@@ -36,4 +36,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
   Plug 'tpope/vim-commentary'
 
   Plug 'neovim/nvim-lspconfig'
+
+  Plug('rafamadriz/friendly-snippets')
+  Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
 call plug#end()
