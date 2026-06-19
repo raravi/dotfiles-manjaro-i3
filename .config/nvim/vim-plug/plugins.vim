@@ -40,4 +40,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
   Plug 'HiPhish/rainbow-delimiters.nvim'
   Plug 'MeanderingProgrammer/render-markdown.nvim'
 
+  Plug 'folke/trouble.nvim'
+
 call plug#end()

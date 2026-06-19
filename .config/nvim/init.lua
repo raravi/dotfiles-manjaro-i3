@@ -173,3 +173,13 @@ require('rainbow-delimiters.setup').setup({})
 
 require('render-markdown').setup({})
 
+require('trouble').setup({})
+
+vim.keymap.set('n', '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Diagnostics (workspace)' })
+vim.keymap.set('n', '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', { desc = 'Diagnostics (buffer)' })
+vim.keymap.set('n', '<leader>xt', '<cmd>Trouble todo toggle<cr>', { desc = 'TODO/FIXME comments' })
+vim.keymap.set('n', '<leader>xs', '<cmd>Trouble symbols toggle<cr>', { desc = 'Document symbols' })
+vim.keymap.set('n', '<leader>xr', '<cmd>Trouble lsp_references toggle<cr>', { desc = 'LSP references' })
+vim.keymap.set('n', '<leader>xq', '<cmd>Trouble qflist toggle<cr>', { desc = 'Quickfix list' })
+vim.keymap.set('n', '<leader>xl', '<cmd>Trouble loclist toggle<cr>', { desc = 'Location list' })
+

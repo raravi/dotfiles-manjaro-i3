@@ -23,6 +23,10 @@ In vi mode:
 `K`                 - view object details in floating window
 `;d`                - view error details in floating window
 `q`                 - close floating window
+`;xx`               - diagnostics (workspace)
+`;xX`               - diagnostics (buffer only)
+`;xr`               - find all usages (LSP references)
+`;xs`               - list symbols (functions, classes)
 
 ## Key remapping
 
