@@ -14,6 +14,7 @@ In vi mode:
 
 ### Neovim
 
+`gx`                - open a link in browser
 `;e`                - highlight opened file in neotree
 `;bn`               - go to next open tab
 `;bp`               - go to previous open tab
