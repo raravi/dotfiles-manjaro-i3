@@ -11,10 +11,8 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 
-  " Theme - Tokyo Night
+  " Themes
   Plug 'folke/tokyonight.nvim'
-
-  " Theme - catppuccin
   Plug 'catppuccin/nvim', { 'branch': 'vim', 'as': 'catppuccin' } 
   
   Plug 'nvim-lua/plenary.nvim'
@@ -25,7 +23,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
   Plug 'sindrets/diffview.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'NeogitOrg/neogit'
-
   Plug 'lewis6991/gitsigns.nvim'
 
   Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
@@ -39,4 +36,8 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
   Plug('rafamadriz/friendly-snippets')
   Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
+
+  Plug 'HiPhish/rainbow-delimiters.nvim'
+  Plug 'MeanderingProgrammer/render-markdown.nvim'
+
 call plug#end()

@@ -169,3 +169,7 @@ require('blink.cmp').setup({
   },
 })
 
+require('rainbow-delimiters.setup').setup({})
+
+require('render-markdown').setup({})
+
