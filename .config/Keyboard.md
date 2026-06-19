@@ -5,8 +5,11 @@
 ### Alacritty
 
 `Ctrl+Shift+Space`  - toggle vi mode
+
+In vi mode:
+
 `v`                 - start a selection
-`y`                 - copy the selection
+`y`                 - end & copy the selection
 `hjkl`              - for navigation
 
 ### Neovim
