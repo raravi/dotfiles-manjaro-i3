@@ -16,9 +16,11 @@ In vi mode:
 
 `gx`                - open a link in browser
 `;e`                - highlight opened file in neotree
+
 `;bn`               - go to next open tab
 `;bp`               - go to previous open tab
 `;bd`               - close tab
+
 `gd`                - go to definition
 `K`                 - view object details in floating window
 `;d`                - view error details in floating window
@@ -27,6 +29,10 @@ In vi mode:
 `;xX`               - diagnostics (buffer only)
 `;xr`               - find all usages (LSP references)
 `;xs`               - list symbols (functions, classes)
+
+`Ctrl+w h/j/k/l`    - move to left/down/up/right window
+`Ctrl+w p`          - move to previous window
+`Ctrl+w w`          - move to next window
 
 ## Key remapping
 

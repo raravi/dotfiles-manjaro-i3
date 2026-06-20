@@ -173,7 +173,9 @@ require('rainbow-delimiters.setup').setup({})
 
 require('render-markdown').setup({})
 
-require('trouble').setup({})
+require('trouble').setup({
+  focus = true,  -- auto-focus the window when opened
+})
 
 vim.keymap.set('n', '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Diagnostics (workspace)' })
 vim.keymap.set('n', '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', { desc = 'Diagnostics (buffer)' })
