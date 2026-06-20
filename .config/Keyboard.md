@@ -1,5 +1,16 @@
 # Keyboard Customization
 
+## Key remapping
+
+I have remapped keys for easier typing.
+
+* `CapsLock` as Modifier key for **i3**.
+* `CapsLock` as `Esc` key.
+* `LeftShift` as `Ctrl` key.
+
+These are important keys:
+* `;` as leader key in nvim.
+
 ## Commands for Apps
 
 ### Alacritty
@@ -14,7 +25,7 @@ In vi mode:
 |-|-|
 | `v`                | start a selection                      |
 | `y`                | end & copy the selection               |
-| `hjkl`             | for navigation                         |
+| `h/j/k/l`          | for navigation                         |
 
 ### Neovim
 
@@ -37,14 +48,10 @@ In vi mode:
 | `Ctrl+w p`         | move to previous window                |
 | `Ctrl+w w`         | move to next window                    |
 
+### Brave
 
-## Key remapping
+| Cmd | Action |
+|-|-|
+| `Ctrl+Shift+u`     | open bitwarden extension               |
+| `Ctrl+Shift+n`     | open private window                    |
 
-I have remapped keys for easier typing.
-
-* `CapsLock` as Modifier key for **i3**.
-* `CapsLock` as `Esc` key.
-* `LeftShift` as `Ctrl` key.
-
-These are important keys:
-* `;` as leader key in nvim.
