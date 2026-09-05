@@ -2,42 +2,72 @@
 
 Keeps an agent grounded when modifying this user's dotfiles. Read me first.
 
+Last verified: 2026-09-05
+
 ## Layout overview
 
 | Path | Purpose |
 |------|---------|
 | `i3/config` | i3 wm config; keybindings, workspaces, autostart |
-| `i3/scripts/` | custom scripts — `monitor-layout.sh`, `keys-remap.sh` |
+| `i3/keys-remap.sh` | key remapping (CapsLock→Super/Esc, Left Shift→Ctrl) |
+| `i3/scripts/` | custom scripts — `monitor-layout.sh` |
 | `i3/layouts/` | saved workspace layouts (1, 3, 5) |
 | `i3/blocklets/` | menu scripts (e.g. `shutdown_menu`) |
 | `polybar/` | bar: `launch.sh` + `config.ini` |
-| `xborder/` | border daemon: `launch.sh` + `config.json` |
+| `xborder/` | border daemon (upstream clone of deter0/xborder) |
 | `picom/` | compositor config (`picom.conf`) |
+| `alacritty/` | terminal config + themes |
+| `rofi/` | launcher config + themes (`config-dmenu.rasi` used by `shutdown_menu`) |
+| `deadd/` | notification daemon config (`deadd.yml`, `deadd.css`) + whatsapp parser |
+| `nitrogen/` | wallpaper restore |
+| `nvim/` | neovim config |
+| `Install.md` | first-install package list |
+| `Keyboard.md` | key remaps + app shortcuts |
+
+`discord/settings.json` and `easyeffects/output/` are tracked app settings.
 
 ## Key facts / gotchas
 
-- **Mod key is Super (Mod4)**; `keys-remap.sh` remaps CapsLock to Super (tap → Escape) and juggles Ctrl/Shift.
+- **Mod key is Super (Mod4)**; `i3/keys-remap.sh` maps CapsLock→Super (tap→Escape via `xcape`) and **Left Shift→Left Control** (`xmodmap keycode 50`). See `Keyboard.md`.
 - **Monitor names change with the dock** — verify with `xrandr --query` before hardcoding. Current:
   `eDP-1` (laptop, 1920x1080@144), `HDMI-1-0` (ultrawide 3440x1440, primary), `DP-1-0` (portrait 1440p, rotated right).
 - **Single/multi layout** is managed by `i3/scripts/monitor-layout.sh` (`auto|single|multi|toggle`):
   `auto` at boot/reload (`exec_always`), `Mod+Shift+m` toggles. It restarts **polybar + xborders** after every change —
   do not remove that, or bars/borders die on toggle (real past bug).
 - Toggle needs ~0.5s settle after `xrandr` before relaunching polybar, or you get "Monitor not found".
-- Notifications: `notify-send` works as a fallback for `deadd-notification-center`.
+- **Workspace→output mapping** (`i3/config`): 1–2→`eDP-1`, 3–4→`primary`, 5–6→`DP-1-0`. In multi mode `eDP-1` is **off**, so workspaces 1/2 fall back onto `HDMI-1-0` — not a bug.
+- **Startup** (login only, plain `exec`): appends layouts 1/3/5 and opens spotify, 4× alacritty, brave, notion, discord.
+- `i3-msg reload` re-runs **every** `exec_always` — including `monitor-layout.sh auto`, which overrides a manual `single` toggle whenever HDMI is present.
+- **Notifications**: `deadd-notification-center` is the daemon; `notify-send` is the client used by `monitor-layout.sh` (guarded with `command -v`). Toggle the center with `Mod+n`.
+- **Known stale lines in `i3/config`** (do not "fix"): the `dex` autostart (dex not installed, autostart dir empty) and `$refresh_i3status` (i3status not running; polybar is used).
+- Live anomaly (2026-09-05): two `deadd-notification-center` instances run (one from i3 `exec_always`, one D-Bus-activated by systemd --user). Don't assume which is "the" daemon.
+- Clutter (untracked, safe to delete): `i3/layouts/*.old`, `i3/layouts/workspace-3.json.test.new`, empty `xborder1/`.
+
+## xborder gotcha
+
+`xborder/` is a full upstream git clone (`deter0/xborder` v3.4) with its own `.git` and `.venv`.
+Only `launch.sh` + `config.json` are user files (tracked in the dotfiles repo, untracked in the clone).
+Never `config add .config/xborder/` wholesale — the nested `.git` gets added as a gitlink. Add files individually.
+`launch.sh` runs the system `/bin/python3`, not the clone's `.venv`.
 
 ## Verification
 
 ```bash
 i3 -C -c ~/.config/i3/config    # validate i3 config
-i3-msg reload                   # live-reload i3
+i3-msg reload                   # live-reload i3 (re-runs exec_always!)
 bash -n ~/.config/i3/scripts/monitor-layout.sh
 polybar --list-monitors
 xrandr --query                  # current display layout
 pgrep -a polybar; pgrep -a xborders
 ```
 
+Polybar logs to `/tmp/polybar.log`.
+
 ## Repo state
 
 - Dotfiles are versioned with a **bare-repo setup** (`~/.myconfig`), per the Atlassian method documented in `~/README.md`.
-- Use the `config` alias (`/usr/bin/git --git-dir=$HOME/.myconfig --work-tree=$HOME`), **not** plain `git`.
-  e.g. `config status`, `config diff -- ~/.config/i3/config`, `config add ... && config commit`.
+- The `config` alias is defined **only in `~/.zshrc`**; in bash/non-interactive shells use the full form:
+  `git --git-dir=$HOME/.myconfig --work-tree=$HOME <cmd>`
+- **New files are added manually, one at a time** (`config add <path>`); never `config add -A` or whole directories.
+  Untracked files are intentionally hidden from `config status` (`status.showUntrackedFiles=no`).
+- e.g. `config status`, `config diff -- ~/.config/i3/config`, `config add ~/.config/i3/config && config commit`.

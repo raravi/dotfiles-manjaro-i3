@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Assign Keys
 # 1. Caps Lock to Super / ESC
-# 2. Right Control to Right Shift key
+# 2. Left Shift to Left Control key
 exec_always --no-startup-id "~/.config/i3/keys-remap.sh"
 
 # Font for window titles. Will also be used by the bar unless a different font
