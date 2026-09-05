@@ -11,10 +11,21 @@ killall -q polybar
 # polybar bar 2>&1 | tee -a /tmp/polybar.log & disown
 # polybar bar2 2>&1 | tee -a /tmp/polybar2.log & disown
 
-# for monitor in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-for monitor in $(polybar --list-monitors | cut -d":" -f1); do
-    echo "Starting bar on monitor '$monitor'" | tee -a /tmp/polybar.log
-    MONITOR="$monitor" polybar bar 2>&1 | tee -a /tmp/polybar.log & disown
+# The bar with the system tray (`bar`) runs on the primary monitor;
+# tray-less `bar-secondary` runs on the others (only one bar can own the tray).
+monitors=$(polybar --list-monitors)
+
+primary=$(echo "$monitors" | grep -oE '^[^:]+: .*\(primary\)' | cut -d: -f1)
+[ -z "$primary" ] && primary=$(echo "$monitors" | cut -d: -f1 | head -1)
+
+for monitor in $(echo "$monitors" | cut -d: -f1); do
+    if [ "$monitor" = "$primary" ]; then
+        bar=bar
+    else
+        bar=bar-secondary
+    fi
+    echo "Starting $bar on monitor '$monitor'" | tee -a /tmp/polybar.log
+    MONITOR="$monitor" polybar "$bar" 2>&1 | tee -a /tmp/polybar.log & disown
 done
 
 echo "Bars launched..."
