@@ -2,7 +2,7 @@
 
 notify() {
     if command -v notify-send >/dev/null 2>&1; then
-        notify-send -u low "monitor-layout" "$1"
+        notify-send -u low "Screen Mode" "$1"
     fi
 }
 
@@ -10,7 +10,7 @@ apply_single() {
     xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rate 144 --scale 1.00 \
            --output HDMI-1-0 --off \
            --output DP-1-0 --off
-    notify "Single monitor (laptop screen)"
+    notify "Single monitor (laptop)"
 }
 
 apply_multi() {
@@ -73,3 +73,4 @@ esac
 sleep 0.5
 restart_polybar
 restart_xborders
+
