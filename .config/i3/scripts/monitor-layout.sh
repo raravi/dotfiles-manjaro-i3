@@ -85,7 +85,7 @@ restart_polybar() {
 }
 
 rerun_keys_remaps() {
-    "$HOME/.config/keys-remap.sh"
+    "$HOME/.config/i3/keys-remap.sh"
 }
 
 case "${1:-auto}" in
@@ -127,4 +127,7 @@ sleep 1.5
 restart_polybar
 restart_xborders
 rerun_keys_remaps
+
+# Regenerate nitrogen per-screen wallpapers from the new layout
+"$HOME/.config/i3/scripts/wallpaper-apply.sh"
 

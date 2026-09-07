@@ -10,7 +10,7 @@ Last verified: 2026-09-07
 |------|---------|
 | `i3/config` | i3 wm config; keybindings, workspaces, autostart |
 | `i3/keys-remap.sh` | key remapping (CapsLock→Super/Esc, Left Shift→Ctrl) |
-| `i3/scripts/` | custom scripts — `monitor-layout.sh` |
+| `i3/scripts/` | custom scripts — `monitor-layout.sh`, `wallpaper-apply.sh` |
 | `i3/layouts/` | saved workspace layouts (1, 3, 5) |
 | `i3/blocklets/` | menu scripts (e.g. `shutdown_menu`) |
 | `polybar/` | bar: `launch.sh` + `config.ini` |
@@ -19,7 +19,7 @@ Last verified: 2026-09-07
 | `alacritty/` | terminal config + themes |
 | `rofi/` | launcher config + themes (`config-dmenu.rasi` used by `shutdown_menu`) |
 | `deadd/` | notification daemon config (`deadd.yml`, `deadd.css`) + whatsapp parser |
-| `nitrogen/` | wallpaper restore |
+| `nitrogen/` | wallpaper restore; `wallpapers.conf` per-monitor mapping |
 | `nvim/` | neovim config |
 | `Install.md` | first-install package list |
 | `Keyboard.md` | key remaps + app shortcuts |
@@ -32,14 +32,21 @@ Last verified: 2026-09-07
 - **Monitor names change with the dock** — verify with `xrandr --query` before hardcoding. Current:
   `eDP-1` (laptop, 1920x1080@144), `HDMI-1-0` (ultrawide 3440x1440, primary), `DP-1-0` (portrait 1440p, rotated right).
 - **Screen layout** is managed by `i3/scripts/monitor-layout.sh` (`auto|single|multi|all|cycle`):
-  `auto` at boot/reload (`exec_always`); `Mod+Shift+m` runs `cycle` (single → multi → all → single).
-  It restarts **polybar + xborders** after every change — do not remove that, or bars/borders die on switch (real past bug).
-- `single` = laptop eDP-1 only. `multi` = docked (HDMI ultrawide primary + DP portrait on the right), eDP off.
-  `all` = laptop left of ultrawide, geometry:
-  `eDP-1 1920x1080@144 at 0x1320`, `HDMI-1-0 primary 3440x1440 at 1920x960`, `DP-1-0 2560x1440 (rotate right) at 5360x0`.
-  `multi`/`all` require **both** HDMI-1-0 and DP-1-0 connected (`both_externals_present`); the script only passes
-  `--output` flags for outputs that exist.
-- Toggle needs ~1.5s settle after `xrandr` before relaunching polybar, or you get "Monitor not found".
+  - Modes
+    - `auto` at boot/reload (`exec_always`); `Mod+Shift+m` runs `cycle` (single → multi → all → single).
+    - `single` = laptop eDP-1 only. `multi` = docked (HDMI ultrawide primary + DP portrait on the right), eDP off.
+    - `all` = laptop left of ultrawide, geometry:
+      - `eDP-1 1920x1080@144 at 0x1320`, `HDMI-1-0 primary 3440x1440 at 1920x960`, `DP-1-0 2560x1440 (rotate right) at 5360x0`.
+    - `multi`/`all` require **both** HDMI-1-0 and DP-1-0 connected (`both_externals_present`); the script only passes
+    - `--output` flags for outputs that exist.
+  - It restarts **polybar + xborders** after every change — do not remove that, or bars/borders die on switch (real past bug).
+  - Cycle needs ~1.5s to settle after `xrandr` before relaunching polybar, or you get "Monitor not found".
+- **Per-screen wallpapers**: `i3/scripts/wallpaper-apply.sh` (called at the end of every `monitor-layout.sh`
+  run) rebuilds `nitrogen/bg-saved.cfg` from the *live* `xrandr --listmonitors` order and
+  maps each head's connector to a wallpaper via `nitrogen/wallpapers.conf` (`eDP-1=` / `HDMI-1-0=` / `DP-1-0=`
+  lines), then runs `nitrogen --restore`. Nitrogen keys `[xin_N]` by Xinerama head order, so the config must be
+  regenerated per layout (order differs between single/multi/all). The `nitrogen --restore &` runs once on i3 boot;
+  then the multi monitor check `exec_always monitor-layout.sh auto` calls `nitrogen --restore &` rewrites it a moment later.
 - **Workspace→output mapping** (`i3/config`): 1–2→`eDP-1`, 3–4→`primary`, 5–6→`DP-1-0`. In multi mode `eDP-1` is **off**, so workspaces 1/2 fall back onto `HDMI-1-0` — not a bug.
 - **Startup** (login only, plain `exec`): appends layouts 1/3/5 and opens spotify, 4× alacritty, brave, notion, discord.
 - `i3-msg reload` re-runs **every** `exec_always` — including `monitor-layout.sh auto`, which overrides a manual `single` toggle whenever both externals are docked.
