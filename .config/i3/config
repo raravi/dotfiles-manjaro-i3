@@ -44,11 +44,11 @@ exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
 # set desktop background with custom effect
 # exec --no-startup-id betterlockscreen -u ~/Pictures/Walls/tokyo_pink.png
 
-# Set Multi Monitor layout
-# auto: applies 'multi' when an external display is docked, otherwise 'single'
+# Set Screen layout
+# auto: applies 'multi' when both external displays are docked, otherwise 'single'
 exec_always --no-startup-id $HOME/.config/i3/scripts/monitor-layout.sh auto
-# Toggle between single and multi monitor layout
-bindsym $mod+Shift+m exec --no-startup-id $HOME/.config/i3/scripts/monitor-layout.sh toggle
+# Cycle between single (laptop only), multi (docked), and all (laptop + docked) layouts
+bindsym $mod+Shift+m exec --no-startup-id $HOME/.config/i3/scripts/monitor-layout.sh cycle
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.

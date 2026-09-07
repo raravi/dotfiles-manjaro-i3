@@ -31,13 +31,15 @@ Last verified: 2026-09-07
 - **Mod key is Super (Mod4)**; `i3/keys-remap.sh` maps CapsLock→Super (tap→Escape via `xcape`) and **Left Shift→Left Control** (`xmodmap keycode 50`). See `Keyboard.md`.
 - **Monitor names change with the dock** — verify with `xrandr --query` before hardcoding. Current:
   `eDP-1` (laptop, 1920x1080@144), `HDMI-1-0` (ultrawide 3440x1440, primary), `DP-1-0` (portrait 1440p, rotated right).
-- **Single/multi layout** is managed by `i3/scripts/monitor-layout.sh` (`auto|single|multi|toggle`):
-  `auto` at boot/reload (`exec_always`), `Mod+Shift+m` toggles. It restarts **polybar + xborders** after every change —
-  do not remove that, or bars/borders die on toggle (real past bug).
-- Multi layout requires **both** HDMI-1-0 and DP-1-0 connected. `auto` (boot/reload): multi when both docked, single otherwise.
-  `Mod+Shift+m` `toggle` flips the current state: multi → single; single → multi (refuses unless both externals are docked).
-  The script only passes `--output` flags for outputs that exist.
-- Toggle needs ~0.5s settle after `xrandr` before relaunching polybar, or you get "Monitor not found".
+- **Screen layout** is managed by `i3/scripts/monitor-layout.sh` (`auto|single|multi|all|cycle`):
+  `auto` at boot/reload (`exec_always`); `Mod+Shift+m` runs `cycle` (single → multi → all → single).
+  It restarts **polybar + xborders** after every change — do not remove that, or bars/borders die on switch (real past bug).
+- `single` = laptop eDP-1 only. `multi` = docked (HDMI ultrawide primary + DP portrait on the right), eDP off.
+  `all` = laptop left of ultrawide, geometry:
+  `eDP-1 1920x1080@144 at 0x1320`, `HDMI-1-0 primary 3440x1440 at 1920x960`, `DP-1-0 2560x1440 (rotate right) at 5360x0`.
+  `multi`/`all` require **both** HDMI-1-0 and DP-1-0 connected (`both_externals_present`); the script only passes
+  `--output` flags for outputs that exist.
+- Toggle needs ~1.5s settle after `xrandr` before relaunching polybar, or you get "Monitor not found".
 - **Workspace→output mapping** (`i3/config`): 1–2→`eDP-1`, 3–4→`primary`, 5–6→`DP-1-0`. In multi mode `eDP-1` is **off**, so workspaces 1/2 fall back onto `HDMI-1-0` — not a bug.
 - **Startup** (login only, plain `exec`): appends layouts 1/3/5 and opens spotify, 4× alacritty, brave, notion, discord.
 - `i3-msg reload` re-runs **every** `exec_always` — including `monitor-layout.sh auto`, which overrides a manual `single` toggle whenever both externals are docked.
