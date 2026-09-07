@@ -6,14 +6,34 @@ notify() {
     fi
 }
 
+hdmi_connected() {
+    xrandr --query | grep -q "^HDMI-1-0 connected"
+}
+
+dp_connected() {
+    xrandr --query | grep -q "^DP-1-0 connected"
+}
+
+# Multi layout is only valid when both external displays are docked
+both_externals_present() {
+    hdmi_connected && dp_connected
+}
+
 apply_single() {
-    xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rate 144 --scale 1.00 \
-           --output HDMI-1-0 --off \
-           --output DP-1-0 --off
+    # Only touch outputs that exist, or xrandr fails on the missing one
+    local -a cmd=(xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rate 144 --scale 1.00)
+    hdmi_connected && cmd+=(--output HDMI-1-0 --off)
+    dp_connected && cmd+=(--output DP-1-0 --off)
+    "${cmd[@]}"
     notify "Single monitor (laptop)"
 }
 
 apply_multi() {
+    if ! both_externals_present; then
+        notify "Multi requires both HDMI and DP external monitors"
+        exit 1
+    fi
+
     xrandr --output eDP-1 --off \
            --output HDMI-1-0 --primary --mode 3440x1440 --pos 0x960 --scale 1.00 \
            --output DP-1-0 --mode 2560x1440 --pos 3440x0 --scale 1.00 --rotate right
@@ -28,16 +48,6 @@ restart_polybar() {
     "$HOME/.config/polybar/launch.sh"
 }
 
-# HDMI is active when its line carries a current mode + position (e.g. "3440x1440+0+960");
-# when off it only shows bare "connected".
-is_multi_active() {
-    xrandr --query | grep "^HDMI-1-0 connected" | grep -qE '[0-9]+x[0-9]+\+[0-9]+\+[0-9]+'
-}
-
-is_hdmi_present() {
-    xrandr --query | grep -q "^HDMI-1-0 connected"
-}
-
 case "${1:-auto}" in
     single)
         apply_single
@@ -45,23 +55,11 @@ case "${1:-auto}" in
     multi)
         apply_multi
         ;;
-    auto)
-        if is_hdmi_present; then
+    auto|toggle)
+        if both_externals_present; then
             apply_multi
         else
             apply_single
-        fi
-        ;;
-    toggle)
-        if is_multi_active; then
-            apply_single
-        else
-            if is_hdmi_present; then
-                apply_multi
-            else
-                notify "No external display detected"
-                exit 1
-            fi
         fi
         ;;
     *)

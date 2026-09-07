@@ -2,7 +2,7 @@
 
 Keeps an agent grounded when modifying this user's dotfiles. Read me first.
 
-Last verified: 2026-09-05
+Last verified: 2026-09-07
 
 ## Layout overview
 
@@ -34,10 +34,13 @@ Last verified: 2026-09-05
 - **Single/multi layout** is managed by `i3/scripts/monitor-layout.sh` (`auto|single|multi|toggle`):
   `auto` at boot/reload (`exec_always`), `Mod+Shift+m` toggles. It restarts **polybar + xborders** after every change —
   do not remove that, or bars/borders die on toggle (real past bug).
+- Detection requires **both** HDMI-1-0 and DP-1-0 to be connected for multi:
+  `auto`/`toggle` go multi only when both externals are docked, single otherwise (one external → laptop only).
+  `toggle` is a "sync to dock state" (no longer a flip). The script only passes `--output` flags for outputs that exist.
 - Toggle needs ~0.5s settle after `xrandr` before relaunching polybar, or you get "Monitor not found".
 - **Workspace→output mapping** (`i3/config`): 1–2→`eDP-1`, 3–4→`primary`, 5–6→`DP-1-0`. In multi mode `eDP-1` is **off**, so workspaces 1/2 fall back onto `HDMI-1-0` — not a bug.
 - **Startup** (login only, plain `exec`): appends layouts 1/3/5 and opens spotify, 4× alacritty, brave, notion, discord.
-- `i3-msg reload` re-runs **every** `exec_always` — including `monitor-layout.sh auto`, which overrides a manual `single` toggle whenever HDMI is present.
+- `i3-msg reload` re-runs **every** `exec_always` — including `monitor-layout.sh auto`, which overrides a manual `single` toggle whenever both externals are docked.
 - **Notifications**: `deadd-notification-center` is the daemon; `notify-send` is the client used by `monitor-layout.sh` (guarded with `command -v`). Toggle the center with `Mod+n`.
 - **Known stale lines in `i3/config`** (do not "fix"): the `dex` autostart (dex not installed, autostart dir empty) and `$refresh_i3status` (i3status not running; polybar is used).
 - Live anomaly (2026-09-05): two `deadd-notification-center` instances run (one from i3 `exec_always`, one D-Bus-activated by systemd --user). Don't assume which is "the" daemon.
