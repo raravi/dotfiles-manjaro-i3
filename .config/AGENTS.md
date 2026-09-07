@@ -34,9 +34,9 @@ Last verified: 2026-09-07
 - **Single/multi layout** is managed by `i3/scripts/monitor-layout.sh` (`auto|single|multi|toggle`):
   `auto` at boot/reload (`exec_always`), `Mod+Shift+m` toggles. It restarts **polybar + xborders** after every change —
   do not remove that, or bars/borders die on toggle (real past bug).
-- Detection requires **both** HDMI-1-0 and DP-1-0 to be connected for multi:
-  `auto`/`toggle` go multi only when both externals are docked, single otherwise (one external → laptop only).
-  `toggle` is a "sync to dock state" (no longer a flip). The script only passes `--output` flags for outputs that exist.
+- Multi layout requires **both** HDMI-1-0 and DP-1-0 connected. `auto` (boot/reload): multi when both docked, single otherwise.
+  `Mod+Shift+m` `toggle` flips the current state: multi → single; single → multi (refuses unless both externals are docked).
+  The script only passes `--output` flags for outputs that exist.
 - Toggle needs ~0.5s settle after `xrandr` before relaunching polybar, or you get "Monitor not found".
 - **Workspace→output mapping** (`i3/config`): 1–2→`eDP-1`, 3–4→`primary`, 5–6→`DP-1-0`. In multi mode `eDP-1` is **off**, so workspaces 1/2 fall back onto `HDMI-1-0` — not a bug.
 - **Startup** (login only, plain `exec`): appends layouts 1/3/5 and opens spotify, 4× alacritty, brave, notion, discord.

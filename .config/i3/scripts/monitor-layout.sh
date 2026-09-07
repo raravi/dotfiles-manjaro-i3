@@ -19,6 +19,14 @@ both_externals_present() {
     hdmi_connected && dp_connected
 }
 
+# Multi layout is currently applied when both external outputs carry a mode + position
+# (note: an active output may say "connected primary 3440x1440+0+960", hence the loose match)
+is_multi_active() {
+    local active
+    active=$(xrandr --query | grep -cE '^(HDMI-1-0|DP-1-0) connected .*[0-9]+x[0-9]+\+[0-9]+\+[0-9]+')
+    ((active >= 2))
+}
+
 apply_single() {
     # Only touch outputs that exist, or xrandr fails on the missing one
     local -a cmd=(xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rate 144 --scale 1.00)
@@ -30,7 +38,7 @@ apply_single() {
 
 apply_multi() {
     if ! both_externals_present; then
-        notify "Multi requires both HDMI and DP external monitors"
+        notify "Multi-monitor requires both external monitors to be detected!"
         exit 1
     fi
 
@@ -55,11 +63,23 @@ case "${1:-auto}" in
     multi)
         apply_multi
         ;;
-    auto|toggle)
+    auto)
         if both_externals_present; then
             apply_multi
         else
             apply_single
+        fi
+        ;;
+    toggle)
+        if is_multi_active; then
+            apply_single
+        else
+            if both_externals_present; then
+                apply_multi
+            else
+                notify "Multi-monitor requires both external monitors to be detected!"
+                exit 1
+            fi
         fi
         ;;
     *)
