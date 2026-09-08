@@ -90,7 +90,7 @@ apply_all() {
 }
 
 restart_xborders() {
-    "$HOME/.config/xborder/launch.sh"
+    "$HOME/.config/xborder/launch.sh" &
 }
 
 restart_polybar() {
