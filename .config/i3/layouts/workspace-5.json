@@ -10,15 +10,15 @@
        "y": 0
     },
     "marks": [],
-    "name": "Alacritty - ArchWiki - Brave",
+    "name": "brave2",
     "percent": 0.65,
     "swallows": [
        {
        // "class": "^Brave\\-browser$",
        // "instance": "^brave\\-browser$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
-       // "title": "^Alacritty\\ \\-\\ ArchWiki\\ \\-\\ Brave$",
-         "window_role": "^browser$"
+          "title": "^brave2$"
+       // "window_role": "^browser$"
        }
     ],
     "type": "con"
@@ -29,20 +29,20 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 720,
-       "width": 1280,
-       "x": 320,
-       "y": 180
+       "height": 2522,
+       "width": 940,
+       "x": 4170,
+       "y": 19
     },
     "marks": [],
-    "name": "Discord",
+    "name": "Friends - Discord",
     "percent": 0.35,
     "swallows": [
        {
-         "class": "^discord$"
+          "class": "^discord$"
        // "instance": "^discord$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
-       // "title": "^\\#💋\\‖𝕋𝕙𝕖\\-𝕊𝕚𝕣𝕖𝕟\\-ℝ𝕠𝕠𝕞\\‖🔞\\ \\|\\ \\‧₊˚\\✧\\ 𝔸𝕚\\ 𝔸𝕣𝕥\\ 𝔸𝕣𝕔𝕙𝕚𝕧𝕖\\ \\✧˚₊\\‧\\ \\-\\ Discord$",
+       // "title": "^Friends\\ \\-\\ Discord$",
        // "window_role": "^browser\\-window$"
        }
     ],
