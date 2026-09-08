@@ -33,20 +33,25 @@ Last verified: 2026-09-07
   `eDP-1` (laptop, 1920x1080@144), `HDMI-1-0` (ultrawide 3440x1440, primary), `DP-1-0` (portrait 1440p, rotated right).
 - **Screen layout** is managed by `i3/scripts/monitor-layout.sh` (`auto|single|multi|all|cycle`):
   - Modes
-    - `auto` at boot/reload (`exec_always`); `Mod+Shift+m` runs `cycle` (single → multi → all → single).
-    - `single` = laptop eDP-1 only. `multi` = docked (HDMI ultrawide primary + DP portrait on the right), eDP off.
+    - `auto` at boot/reload (`exec_always`)
+    - `cycle` (single → multi → all → single): `Mod+Shift+m` is bound to this.
+    - `single` = laptop eDP-1 only.
+    - `multi` = docked (HDMI ultrawide primary + DP portrait on the right), eDP off.
     - `all` = laptop left of ultrawide, geometry:
       - `eDP-1 1920x1080@144 at 0x1320`, `HDMI-1-0 primary 3440x1440 at 1920x960`, `DP-1-0 2560x1440 (rotate right) at 5360x0`.
-    - `multi`/`all` require **both** HDMI-1-0 and DP-1-0 connected (`both_externals_present`); the script only passes
+    - `multi`/`all` require **both** HDMI-1-0 and DP-1-0 to be connected (`both_externals_present`)
     - `--output` flags for outputs that exist.
   - It restarts **polybar + xborders** after every change — do not remove that, or bars/borders die on switch (real past bug).
-  - Cycle needs ~1.5s to settle after `xrandr` before relaunching polybar, or you get "Monitor not found".
+  - Wait for Layout: Polls the active-output count until it matches the layout just applied (fail-open after ~4.5s); NO fixed sleep.
+- **Startup race fix**: `i3/scripts/startup.sh` replaces the racy parallel appends/app launches. It is plain `exec` (login only, not run on reload: wait for the layout to settle (poll vs expected active count, ~30s timeout, fail-open), then append layouts 1/3/5, then launch apps. Logs `/tmp/i3-startup.log`. Overrides: `STARTUP_TIMEOUT`, `STARTUP_POLL`, `STARTUP_NO_APPS=1` (skip apps, for a live dry-run).
 - **Per-screen wallpapers**: `i3/scripts/wallpaper-apply.sh` (called at the end of every `monitor-layout.sh`
-  run) rebuilds `nitrogen/bg-saved.cfg` from the *live* `xrandr --listmonitors` order and
+  run, after the settle wait) rebuilds `nitrogen/bg-saved.cfg` from the *live* `xrandr --listmonitors` order and
   maps each head's connector to a wallpaper via `nitrogen/wallpapers.conf` (`eDP-1=` / `HDMI-1-0=` / `DP-1-0=`
-  lines), then runs `nitrogen --restore`. Nitrogen keys `[xin_N]` by Xinerama head order, so the config must be
-  regenerated per layout (order differs between single/multi/all). The `nitrogen --restore &` runs once on i3 boot;
-  then the multi monitor check `exec_always monitor-layout.sh auto` calls `nitrogen --restore &` rewrites it a moment later.
+  lines), then runs `nitrogen --restore` **in the foreground** (logs to `/tmp/wallpaper-apply.log`).
+  Nitrogen keys `[xin_N]` by Xinerama head order, so the config must be regenerated per layout.
+
+  **No `nitrogen --restore` line in i3 config anymore** — at boot it raced the layout and made
+  walls black/double-restored; the layout's `exec_always monitor-layout.sh auto` covers boot+reload now.
 - **Workspace→output mapping** (`i3/config`): 1–2→`eDP-1`, 3–4→`primary`, 5–6→`DP-1-0`. In multi mode `eDP-1` is **off**, so workspaces 1/2 fall back onto `HDMI-1-0` — not a bug.
 - **Startup** (login only, plain `exec`): appends layouts 1/3/5 and opens spotify, 4× alacritty, brave, notion, discord.
 - `i3-msg reload` re-runs **every** `exec_always` — including `monitor-layout.sh auto`, which overrides a manual `single` toggle whenever both externals are docked.

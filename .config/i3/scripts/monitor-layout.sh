@@ -123,7 +123,34 @@ case "${1:-auto}" in
         ;;
 esac
 
-sleep 1.5
+# Which of the three layouts is active right now (used by the settle wait below)
+expected_outputs() {
+    if is_all_active; then
+        echo 3
+    elif is_multi_active;then
+        echo 2
+    else
+        echo 1
+    fi
+}
+
+# Replace the brittle fixed sleep with a real settle wait: poll until the active-output
+# count matches the layout just applied, then restart polybar/xborders. Fail-open: if it
+# never converges (timeout), proceed anyway so the UI still comes up.
+wait_for_layout() {
+    local expected want ticks=0 delay="${SETTLE_POLL:-0.3}" max="${SETTLE_TIMEOUT:-15}"
+    expected=$(expected_outputs)
+    sleep 1.5
+    while ((ticks < max)); do
+        want=$(xrandr --query 2>/dev/null | grep -cE '^[a-zA-Z0-9-]+ connected .*[0-9]+x[0-9]+\+[0-9]+\+[0-9]+')
+        [[ $want =~ ^[0-9]+$ ]] && ((want == expected)) && return 0
+        sleep "$delay"
+        ((ticks++))
+    done
+    >&2 echo "layout: active-output count did not settle (want=$want expected=$expected); continuing"
+}
+
+wait_for_layout
 restart_polybar
 restart_xborders
 rerun_keys_remaps
