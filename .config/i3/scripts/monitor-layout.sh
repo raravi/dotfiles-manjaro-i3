@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+LOG="${STARTUP_LOG:-/tmp/i3-startup.log}"
+log() {
+    printf '%s monitor-layout: %s\n' "$(date '+%F %T')" "$*" >> "$LOG"
+}
+
+log "invoked: ${1:-auto}"
+
 notify() {
     if command -v notify-send >/dev/null 2>&1; then
         notify-send -u low "Screen Mode" "$1"
@@ -48,7 +55,9 @@ apply_single() {
     local -a cmd=(xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rate 144 --scale 1.00)
     hdmi_connected && cmd+=(--output HDMI-1-0 --off)
     dp_connected && cmd+=(--output DP-1-0 --off)
+    log "applying single layout"
     "${cmd[@]}"
+    log "single xrandr completed with status $?"
     notify "Single monitor (laptop)"
 }
 
@@ -58,9 +67,11 @@ apply_multi() {
         exit 1
     fi
 
+    log "applying multi layout"
     xrandr --output eDP-1 --off \
            --output HDMI-1-0 --primary --mode 3440x1440 --pos 0x960 --scale 1.00 \
            --output DP-1-0 --mode 2560x1440 --pos 3440x0 --scale 1.00 --rotate right
+    log "multi xrandr completed with status $?"
     notify "Multi-monitor (HDMI ultrawide + DP portrait)"
 }
 
@@ -70,9 +81,11 @@ apply_all() {
         exit 1
     fi
 
+    log "applying all-screens layout"
     xrandr --output eDP-1 --mode 1920x1080 --pos 0x1320 --rate 144.00 --scale 1.00 \
            --output HDMI-1-0 --primary --mode 3440x1440 --pos 1920x960 --scale 1.00 \
            --output DP-1-0 --mode 2560x1440 --pos 5360x0 --scale 1.00 --rotate right
+    log "all-screens xrandr completed with status $?"
     notify "All monitors (laptop + HDMI ultrawide + DP portrait)"
 }
 
@@ -88,6 +101,11 @@ rerun_keys_remaps() {
     "$HOME/.config/i3/keys-remap.sh"
 }
 
+wallpaper_apply() {
+    # Regenerate nitrogen per-screen wallpapers from the new layout
+    "$HOME/.config/i3/scripts/wallpaper-apply.sh"
+}
+
 case "${1:-auto}" in
     single)
         apply_single
@@ -100,8 +118,10 @@ case "${1:-auto}" in
         ;;
     auto)
         if both_externals_present; then
+            log "auto selected multi"
             apply_multi
         else
+            log "auto selected single"
             apply_single
         fi
         ;;
@@ -140,21 +160,32 @@ expected_outputs() {
 wait_for_layout() {
     local expected want ticks=0 delay="${SETTLE_POLL:-0.3}" max="${SETTLE_TIMEOUT:-15}"
     expected=$(expected_outputs)
+    log "settle expects $expected active output(s)"
     sleep 1.5
     while ((ticks < max)); do
         want=$(xrandr --query 2>/dev/null | grep -cE '^[a-zA-Z0-9-]+ connected .*[0-9]+x[0-9]+\+[0-9]+\+[0-9]+')
-        [[ $want =~ ^[0-9]+$ ]] && ((want == expected)) && return 0
+        if [[ $want =~ ^[0-9]+$ ]] && ((want == expected)); then
+            log "settle matched with $want active output(s) after $ticks poll(s)"
+            return 0
+        fi
         sleep "$delay"
         ((ticks++))
     done
+    log "settle timed out: want=$want expected=$expected; continuing"
     >&2 echo "layout: active-output count did not settle (want=$want expected=$expected); continuing"
 }
 
+log "waiting for layout to settle"
 wait_for_layout
+log "layout settle wait completed"
+log "restarting polybar"
 restart_polybar
+log "restarting xborders"
 restart_xborders
+log "rerunning key remaps"
 rerun_keys_remaps
-
-# Regenerate nitrogen per-screen wallpapers from the new layout
-"$HOME/.config/i3/scripts/wallpaper-apply.sh"
+log "calling wallpaper_apply"
+wallpaper_apply
+wallpaper_status=$?
+log "wallpaper_apply completed with status $wallpaper_status"
 
