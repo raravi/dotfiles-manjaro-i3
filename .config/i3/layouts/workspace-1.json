@@ -39,7 +39,7 @@
     "percent": 0.25,
     "swallows": [
        {
-         "class": "^Notion$"
+         "class": "^notion$"
        // "instance": "^notion$",
        // "machine": "^rArAviz\\-Blade\\-Manjaro$",
        // "title": "^My\\ Life$",

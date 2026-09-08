@@ -63,7 +63,13 @@ fi
 mv -f "$tmp" "$saved_cfg"
 
 if command -v nitrogen >/dev/null 2>&1; then
-    nitrogen --restore >/dev/null 2>&1 &
+    # Run in the FOREGROUND and log everything. The old backgrounded run raced
+    # the parent shell exiting at login (silent failure -> black walls( and was hit
+    # twice by the stale early `nitrogen --restore &` in i3 config.
+    wall_log="${WALLPAPER_LOG:-/tmp/wallpaper-apply.log}"
+    if ! nitrogen --restore >> "$wall_log" 2>&1; then
+        echo "wallpaper-apply: nitrogen --restore failed; see $wall_log" >&2
+    fi
 else
     echo "wallpaper-apply: nitrogen not found; config written but not applied" >&2
 fi
