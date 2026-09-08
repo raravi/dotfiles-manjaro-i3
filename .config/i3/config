@@ -28,11 +28,6 @@ font pango:monospace 8
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
-# Add layout for all 3 Workspaces, then open apps — sequentially via startup.sh
-# (waits for the display layout to settle first; fixes the startup race).
-# Login only (plain exec) — not re-run on reload.
-exec --no-startup-id $HOME/.config/i3/scripts/startup.sh
-
 # Start Nitrogen to load walls
 #exec_always --no-startup-id nitrogen --restore & 
 
