@@ -7,7 +7,6 @@
 #   Reboot   -> systemctl reboot
 #   Lock     -> betterlockscreen -l
 #   Logout   -> i3-msg exit
-#   Cancel   -> do nothing
 
 set -o nounset
 
@@ -55,14 +54,15 @@ menu_confirm="Shutdown Reboot Logout"
 typeset -A menu
 menu=(
   [Shutdown]="systemctl poweroff"
+  [Logout]="i3-msg exit"
   [Reboot]="systemctl reboot"
   [Lock]="betterlockscreen -l"
-  [Logout]="i3-msg exit"
-  [Cancel]=""
 )
+# Display order of the menu entries (associative arrays have no guaranteed order)
+menu_order=(Shutdown Logout Reboot Lock)
 menu_nrows=${#menu[@]}
 
-rofi_cmd=(rofi -dmenu -config "$ROFI_THEME" -i -lines "${menu_nrows}" -p "${ROFI_TEXT}")
+rofi_cmd=(rofi -dmenu -config "$ROFI_THEME" -i -p "${ROFI_TEXT}")
 
 ask_confirmation() {
   confirmed=$(printf 'Yes\nNo' | rofi -dmenu -config "$ROFI_THEME" -i -lines 2 -p "${selection}?")
@@ -71,7 +71,7 @@ ask_confirmation() {
   fi
 }
 
-selection="$(printf '%s\n' "${!menu[@]}" | sort | "${rofi_cmd[@]}")"
+selection="$(printf '%s\n' "${menu_order[@]}" | "${rofi_cmd[@]}")"
 
 if [[ -n "${selection}" ]]; then
   if [[ "${enable_confirmation}" = true && \
