@@ -4,6 +4,8 @@ set $mod Mod4
 
 # Key remaps (CapsLock -> Super/Esc, Left Shift -> Left Control)
 exec_always --no-startup-id "~/.config/i3/keys-remap.sh"
+
+# Font for window titles
 font pango:monospace 8
 
 # Enable Easy Effects
