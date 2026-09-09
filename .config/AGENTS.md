@@ -62,7 +62,6 @@ Last verified: 2026-09-09
 - `i3-msg reload` re-runs every `exec_always`, including `monitor-layout.sh auto`, which can override a manual `single` layout when both externals are docked.
 - **Notifications**: `deadd-notification-center` is the daemon; `notify-send` is the client used by `monitor-layout.sh` (guarded with `command -v`). Toggle the center with `Mod+n`.
 - Live anomaly (2026-09-05): two `deadd-notification-center` instances run (one from i3 `exec_always`, one D-Bus-activated by systemd --user). Don't assume which is "the" daemon.
-- Clutter (untracked, safe to delete): `i3/layouts/*.old`, `i3/layouts/workspace-3.json.test.new`, empty `xborder1/`.
 
 ## xborder gotcha
 
