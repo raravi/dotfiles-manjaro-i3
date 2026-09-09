@@ -11,16 +11,7 @@
 
 set -o nounset
 
-# Colors: FG (foreground), BG (background), HL (highlighted)
-FG_COLOR="${FG_COLOR:-#bbbbbb}"
-BG_COLOR="${BG_COLOR:-#111111}"
-HLFG_COLOR="${HLFG_COLOR:-#111111}"
-HLBG_COLOR="${HLBG_COLOR:-#bbbbbb}"
-BORDER_COLOR="${BORDER_COLOR:-#222222}"
-
-# Rofi options
 ROFI_TEXT="${ROFI_TEXT:-}"
-ROFI_OPTIONS=(${ROFI_OPTIONS:--theme-str 'window {width: 180px; height:185px;} listview {scrollbar: false;}' -location 0})
 ROFI_THEME="$HOME/.config/rofi/config-dmenu.rasi"
 
 # Ask for user's confirmation
@@ -71,14 +62,10 @@ menu=(
 )
 menu_nrows=${#menu[@]}
 
-rofi_colors=(-bc "${BORDER_COLOR}" -bg "${BG_COLOR}" -fg "${FG_COLOR}" \
-    -hlfg "${HLFG_COLOR}" -hlbg "${HLBG_COLOR}")
-rofi_cmd=(rofi -dmenu -config "$ROFI_THEME" -i -lines "${menu_nrows}" -p "${ROFI_TEXT}" \
-    "${rofi_colors[@]}" "${ROFI_OPTIONS[@]}")
+rofi_cmd=(rofi -dmenu -config "$ROFI_THEME" -i -lines "${menu_nrows}" -p "${ROFI_TEXT}")
 
 ask_confirmation() {
-  confirmed=$(printf 'Yes\nNo' | rofi -dmenu -i -lines 2 -p "${selection}?" \
-    "${rofi_colors[@]}" "${ROFI_OPTIONS[@]}")
+  confirmed=$(printf 'Yes\nNo' | rofi -dmenu -config "$ROFI_THEME" -i -lines 2 -p "${selection}?")
   if [[ "${confirmed}" == "Yes" ]]; then
     i3-msg -q "exec ${menu[${selection}]}"
   fi

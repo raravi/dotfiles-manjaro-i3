@@ -1,10 +1,1 @@
-//configuration {
-//  //display-drun: " Apps ";
-//  display-drun: "";
-//  drun-display-format: "{icon} {name}";
-//  show-icons: true;
-//}
-
-//@theme "/usr/share/rofi/themes/gruvbox-dark-hard.rasi"
-@theme "/usr/share/rofi/themes/purple.rasi"
-//@theme "~/.config/rofi/themes/deathemonic.rasi"
+@theme "/home/raravi/.config/rofi/themes/deathemonic-compact.rasi"
