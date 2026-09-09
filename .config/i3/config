@@ -24,8 +24,8 @@ bindsym $mod+Shift+m exec --no-startup-id $HOME/.config/i3/scripts/monitor-layou
 
 # Increase suspend timeout to 30 minutes
 exec_always --no-startup-id xset dpms 1800 1800 1800 &
-# Suspend/lock screen (betterlockscreen via xss-lock)
-exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l
+# Suspend/lock screen with blurred apex_octane wallpaper
+exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l blur
 # NetworkManager tray applet
 exec --no-startup-id nm-applet --indicator
 # Bluetooth tray applet

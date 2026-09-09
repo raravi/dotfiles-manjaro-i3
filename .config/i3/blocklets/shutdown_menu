@@ -5,7 +5,7 @@
 # Menu entries:
 #   Shutdown -> systemctl poweroff
 #   Reboot   -> systemctl reboot
-#   Lock     -> betterlockscreen -l
+#   Lock     -> betterlockscreen -l blur
 #   Logout   -> i3-msg exit
 
 set -o nounset
@@ -56,7 +56,7 @@ menu=(
   [Shutdown]="systemctl poweroff"
   [Logout]="i3-msg exit"
   [Reboot]="systemctl reboot"
-  [Lock]="betterlockscreen -l"
+  [Lock]="betterlockscreen -l blur"
 )
 # Display order of the menu entries (associative arrays have no guaranteed order)
 menu_order=(Shutdown Logout Reboot Lock)
