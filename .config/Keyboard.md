@@ -9,6 +9,16 @@ I have remapped keys for easier typing.
 * Physical `LeftShift` sends `Control_L`.
 * Physical `RightShift` remains `Shift_R`.
 
+Relevant physical keyboard layout (`*` marks remapped keys):
+
+```text
+[ Esc ]    [F1] [F2] [F3] [F4]     [F5] [F6] [F7] [F8]     [F9] [F10] [F11] [F12]
+[ Tab ] [ Q ] [ W ] [ E ] [ R ] [ T ] [ Y ] [ U ] [ I ] [ O ] [ P ] [[] []] [ \ ]
+[ Super|Esc* ] [ A ] [ S ] [ D ] [ F ] [ G ] [ H ] [ J ] [ K ] [ L ] [ ;* ] [ ' ]
+[  Ctrl*  ] [ Z ] [ X ] [ C ] [ V ] [ B ] [ N ] [ M ] [ , ] [ . ] [ / ] [ Shift ]
+[ Ctrl ] [ Super ] [ Alt ] [                Space              ] [ Alt ] [ Ctrl ]
+```
+
 These are important keys:
 * `;` as leader key in nvim.
 
