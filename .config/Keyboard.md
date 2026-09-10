@@ -2,15 +2,16 @@
 
 ## Key remapping
 
-I have remapped keys for easier typing.
-
+Remapped keys for easier typing:
 * Holding `CapsLock` sends `Super`/`Mod4` for **i3**.
 * Tapping `CapsLock` sends `Escape`.
 * Physical `LeftShift` sends `Control_L`.
 * Physical `RightShift` remains `Shift_R`.
 
-Relevant physical keyboard layout (`*` marks remapped keys):
+Important keys:
+* `;` as leader key in nvim.
 
+Relevant physical keyboard layout (`*` marks remapped / important keys):
 ```text
 [ Esc ]    [F1] [F2] [F3] [F4]     [F5] [F6] [F7] [F8]     [F9] [F10] [F11] [F12]
 [ Tab ] [ Q ] [ W ] [ E ] [ R ] [ T ] [ Y ] [ U ] [ I ] [ O ] [ P ] [[] []] [ \ ]
@@ -18,9 +19,6 @@ Relevant physical keyboard layout (`*` marks remapped keys):
 [  Ctrl*  ] [ Z ] [ X ] [ C ] [ V ] [ B ] [ N ] [ M ] [ , ] [ . ] [ / ] [ Shift ]
 [ Ctrl ] [ Super ] [ Alt ] [                Space              ] [ Alt ] [ Ctrl ]
 ```
-
-These are important keys:
-* `;` as leader key in nvim.
 
 ## Commands for Apps
 
