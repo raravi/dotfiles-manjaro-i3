@@ -19,9 +19,13 @@ mapping="$nitrogen_dir/wallpapers.conf"
 saved_cfg="$nitrogen_dir/bg-saved.cfg"
 mode="${WALLPAPER_MODE:-5}"
 bgcolor="${WALLPAPER_BGCOLOR:-#000000}"
+startup_log="${STARTUP_LOG:-/tmp/i3-startup.log}"
+log() {
+    printf '%s wallpaper-apply: %s\n' "$(date '+%F %T')" "$*" >> "$startup_log"
+}
 
 if [[ ! -f "$mapping" ]]; then
-    echo "wallpaper-apply: no mapping at $mapping; skipping" >&2
+    log "no mapping at $mapping; skipping"
     exit 0
 fi
 
@@ -41,7 +45,7 @@ while read -r line; do
     idx=${BASH_REMATCH[1]}
     conn=${line##* }                 # connector name is the last field
     if [[ -z ${wall[$conn]:-} ]]; then
-        echo "wallpaper-apply: no wallpaper mapped for $conn (index $idx); skipping" >&2
+        log "no wallpaper mapped for $conn (index $idx); skipping"
         continue
     fi
     printf '[xin_%s]\nfile=%s\nmode=%s\nbgcolor=%s\n\n' "$idx" "${wall[$conn]}" "$mode" "$bgcolor" >> "$tmp"
@@ -49,7 +53,7 @@ while read -r line; do
 done < <(xrandr --listmonitors 2>/dev/null)
 
 if [[ $added -eq 0 ]]; then
-    echo "wallpaper-apply: no monitors parsed; leaving config untouched" >&2
+    log "no monitors parsed; leaving config untouched"
     rm -f "$tmp"
     exit 1
 fi
@@ -80,7 +84,7 @@ if command -v nitrogen >/dev/null 2>&1; then
         file=${wall[$conn]:-}
         [[ -z $file ]] && continue
         applied=0
-        for attempt in 1 2 3; do
+        for attempt in 1 2 3 4 5; do
             if nitrogen "$nitrogen_mode" --head="$idx" "$file" >> "$wall_log" 2>&1; then
                 applied=1
                 break
@@ -88,9 +92,9 @@ if command -v nitrogen >/dev/null 2>&1; then
             sleep 1
         done
         if (( ! applied )); then
-            echo "wallpaper-apply: failed to apply wallpaper for $conn; see $wall_log" >&2
+            log "failed to apply wallpaper for $conn; see $wall_log"
         fi
     done < <(xrandr --listmonitors 2>/dev/null)
 else
-    echo "wallpaper-apply: nitrogen not found; config written but not applied" >&2
+    log "nitrogen not found; config written but not applied"
 fi
