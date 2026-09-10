@@ -22,14 +22,16 @@ Use this structure for each issue:
   - Continue monitoring after fresh logins.
 
 - [ ] ISSUE 2: Improve runtime `DP-1-0` dock detection.
-  - Address cases where `DP-1-0` remains disconnected after the dock is connected; reconnecting may fix the normal runtime case, but does not fix the boot-framebuffer case described in Issue 3.
-  - Design a bounded retry or hotplug recovery path after the provider initialization issue is understood.
-  - Avoid changing the layout script until the output is visible to X11.
-  - **Likely diagnosis:** This is likely a dock/NVIDIA DisplayPort link-training or hotplug event problem, not merely a delayed xrandr query. If DP-1-0 is absent entirely, monitor-layout.sh cannot enable it; polling or `xrandr --output DP-1-0 --auto` won’t help until the connector is registered. 
-  - **Action:** Next time this happens, capture before reconnecting the dock:
+  - **Status:** Not yet fixed; investigate after confirming Issue 3 remains stable. Keep this open until runtime dock reconnection and DP detection are reliable.
+  - **Action:** Next time `DP-1-0` remains disconnected, capture diagnostics before reconnecting the dock:
     - `xrandr --query`
     - `xrandr --listproviders`
     - `journalctl -b -k --no-pager | grep -iE 'drm|nvidia|displayport|hotplug'`
+  - **Original issue:** After a cold boot, `DP-1-0` can sometimes remain disconnected even though the dock is connected. Reconnecting may fix the normal runtime case, but does not fix the boot-framebuffer case described in Issue 3.
+  - **Likely diagnosis:** This is likely a dock/NVIDIA DisplayPort link-training or hotplug event problem, not merely a delayed `xrandr` query. If `DP-1-0` is absent entirely, `monitor-layout.sh` cannot enable it; polling or `xrandr --output DP-1-0 --auto` will not help until the connector is registered.
+  - **Changes done:** No layout-script changes yet; avoid implementing retry or hotplug recovery until the output/provider failure is characterized.
+  - **Verified:** Not yet verified.
+  - **Rollback:** Not applicable; no changes have been made for this issue.
 
 - [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
   - **Status:** Fix works on one boot, but stability is not yet confirmed. Keep this open until several cold boots and reboots pass without the external monitors getting stuck on the boot screen.
