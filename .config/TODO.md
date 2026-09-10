@@ -7,7 +7,7 @@
   - Continue monitoring after fresh logins.
 
 - [ ] ISSUE 2: Improve runtime `DP-1-0` dock detection.
-  - Address cases where the dock is connected but `DP-1-0` remains disconnected, and reconnecting the dock fixes it.
+  - Address cases where `DP-1-0` remains disconnected after the dock is connected; reconnecting may fix the normal runtime case, but does not fix the boot-framebuffer case described in Issue 3.
   - Design a bounded retry or hotplug recovery path after the provider initialization issue is understood.
   - Avoid changing the layout script until the output is visible to X11.
   - Likely diagnosis: this is likely a dock/NVIDIA DisplayPort link-training or hotplug event problem, not merely a delayed xrandr query. If DP-1-0 is absent entirely, monitor-layout.sh cannot enable it; polling or xrandr --output DP-1-0 --auto won’t help until the connector is registered. Next time it fails, capture before reconnecting the dock:
@@ -15,14 +15,11 @@
     - xrandr --listproviders
     - journalctl -b -k --no-pager | grep -iE 'drm|nvidia|displayport|hotplug'
 
-- [ ] ISSUE 3: Investigate boot-time NVIDIA/Xorg provider initialization.
-  - Capture failed-boot Xorg, SDDM, kernel, provider, and `nvidia_drm` modesetting diagnostics.
-  - Determine why Xorg exposes only `eDP-1` while the dock outputs retain the boot framebuffer.
-  - Likely diagnosis: This is the same underlying GPU/dock issue, but earlier in boot:
-    - The external screens are still showing the boot framebuffer/splash, not an active i3/X11 desktop.
-    - Xorg/SDDM starts using the Intel modesetting device, so only eDP-1 is exposed to i3.
-    - The NVIDIA provider fails during Xorg startup. The Xorg log contains: "NVIDIA(GPU-0): Failed to acquire modesetting permission. NVIDIA(G0): Failing initialization of X screen"
-    - At the same time, DRM reports the dock outputs as connected, but `xrandr --listproviders` exposes only the Intel provider.
-    - Therefore `monitor-layout.sh` cannot fix this: the DP/HDMI outputs are not available in X11 yet. Reconnecting the dock triggers a new hotplug/provider initialization, which is why they then appear.
-    - The likely fix area is NVIDIA DRM modesetting/early initialization with SDDM, especially ensuring `nvidia_drm` modesetting is enabled before Xorg starts. We should investigate that separately rather than modify the i3 layout script.
+- [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
+  - Changed GRUB to include `nvidia_drm.modeset=1`; no initramfs changes were required.
+  - This enables NVIDIA DRM KMS early enough for SDDM/Xorg to claim the dock-connected outputs.
+  - Verified: `NVIDIA-G0`, HDMI-1-0, and DP-1-0 appear correctly after reboot, with no Xorg modesetting failure.
+  - Continue testing cold boots and reboots with the dock connected.
+  - Fallback: remove `nvidia_drm.modeset=1` temporarily from the GRUB entry by pressing `e`, then boot with `Ctrl+X` or `F10`.
+  - Permanent rollback: restore `/etc/default/grub.before-nvidia-kms` if available, run `sudo grub-mkconfig -o /boot/grub/grub.cfg`, and reboot.
 
