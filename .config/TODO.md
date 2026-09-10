@@ -29,9 +29,9 @@ Use this structure for each issue:
     - `journalctl -b -k --no-pager | grep -iE 'drm|nvidia|displayport|hotplug'`
   - **Original issue:** After a cold boot, `DP-1-0` can sometimes remain disconnected even though the dock is connected. Reconnecting may fix the normal runtime case, but does not fix the boot-framebuffer case described in Issue 3.
   - **Likely diagnosis:** This is likely a dock/NVIDIA DisplayPort link-training or hotplug event problem, not merely a delayed `xrandr` query. If `DP-1-0` is absent entirely, `monitor-layout.sh` cannot enable it; polling or `xrandr --output DP-1-0 --auto` will not help until the connector is registered.
-  - **Changes done:** No layout-script changes yet; avoid implementing retry or hotplug recovery until the output/provider failure is characterized.
-  - **Verified:** Not yet verified.
-  - **Rollback:** Not applicable; no changes have been made for this issue.
+  - **Changes done:**
+  - **Verified:**
+  - **Rollback:**
 
 - [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
   - **Status:** Fix works on one boot, but stability is not yet confirmed. Keep this open until several cold boots and reboots pass without the external monitors getting stuck on the boot screen.
