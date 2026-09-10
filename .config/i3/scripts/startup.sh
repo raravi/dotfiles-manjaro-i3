@@ -58,10 +58,10 @@ launch_apps() {
     # Subsell: spawn every app detached, then exit immediately.
     (
         spotify &
-        alacritty &
-        alacritty &
-        alacritty &
-        alacritty &
+        env WINIT_X11_SCALE_FACTOR=1 alacritty &
+        env WINIT_X11_SCALE_FACTOR=1 alacritty &
+        env WINIT_X11_SCALE_FACTOR=1 alacritty &
+        env WINIT_X11_SCALE_FACTOR=1 alacritty &
         brave &
         notion-app --ignore-gpu-blocklist --disable-features=UseOzonePlatform \
             --enable-features=VaapiVideoDecoder --use-gl=desktop \

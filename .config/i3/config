@@ -51,8 +51,8 @@ floating_modifier $mod
 # or left-clicking anywhere into the window while holding the floating modifier.
 tiling_drag modifier titlebar
 
-# start a terminal
-bindsym $mod+Return exec alacritty
+# start a terminal (scale=1 so font size is consistent across monitors)
+bindsym $mod+Return exec env WINIT_X11_SCALE_FACTOR=1 alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
