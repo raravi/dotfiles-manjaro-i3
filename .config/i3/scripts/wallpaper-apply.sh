@@ -91,7 +91,9 @@ if command -v nitrogen >/dev/null 2>&1; then
             fi
             sleep 1
         done
-        if (( ! applied )); then
+        if (( applied )); then
+            log "applied wallpaper for $conn (head $idx): $file"
+        else
             log "failed to apply wallpaper for $conn; see $wall_log"
         fi
     done < <(xrandr --listmonitors 2>/dev/null)
