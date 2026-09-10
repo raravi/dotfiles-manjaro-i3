@@ -2,7 +2,9 @@
 
 ## Issue entry structure
 
-Use this structure for each issue:
+Use this structure for each issue.
+
+Status values used here: `Not started`, `Fixed`, `Monitoring`, `Closed`.
 
 - [ ] ISSUE N: Title
   - **Status:** ...
@@ -18,7 +20,7 @@ Use this structure for each issue:
 ## Multi-monitor setup
 
 - [ ] ISSUE 1: Keep Alacritty font scale consistent across monitors.
-  - **Status:** Fix applied; stability under monitoring.
+  - **Status:** Monitoring.
   - **Action:** Continue monitoring new Alacritty windows after fresh logins and monitor-mode switches. Mark `[x]` only after monitoring confirms no regression.
   - **Original issue:** Alacritty windows became larger when switching from single-monitor mode to multi-monitor mode.
   - **Likely diagnosis:** Alacritty/winit was applying different per-monitor DPI scale factors as windows moved between the laptop and external displays.
@@ -27,7 +29,7 @@ Use this structure for each issue:
   - **Rollback:**
 
 - [ ] ISSUE 2: Improve runtime `DP-1-0` dock detection.
-  - **Status:** Not yet fixed; investigate after confirming Issue 3 remains stable. Keep this open until runtime dock reconnection and DP detection are reliable.
+  - **Status:** Not started.
   - **Action:** Next time `DP-1-0` remains disconnected, capture diagnostics before reconnecting the dock:
     - `xrandr --query`
     - `xrandr --listproviders`
@@ -39,7 +41,7 @@ Use this structure for each issue:
   - **Rollback:**
 
 - [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
-  - **Status:** Fix applied; stability under monitoring.
+  - **Status:** Monitoring.
   - **Action:** Continue testing cold boots and reboots with the dock connected; report any failure. Mark `[x]` only after several boots pass without the boot-screen issue recurring.
   - **Original issue:** After some logins, the external monitors remained on the Manjaro boot/loading screen while only `eDP-1` was available to Xorg/i3.
   - **Likely diagnosis:** NVIDIA DRM KMS was not initialized early or consistently enough for SDDM/Xorg to claim the dock-connected outputs. In the failed boot, Xorg reported `Failed to acquire modesetting permission`, exposed only the Intel provider, and left the external displays on the boot framebuffer.
