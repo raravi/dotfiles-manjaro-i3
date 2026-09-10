@@ -30,15 +30,17 @@ Use this structure for each issue:
     - `journalctl -b -k --no-pager | grep -iE 'drm|nvidia|displayport|hotplug'`
 
 - [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
-  - Status: fix works on ONE boot, but NOT yet confirmed stable — keep this open until several cold boots/reboots pass without the external monitors getting stuck on the boot screen.
-  - Action: user continues testing cold boots and reboots with the dock connected and reports back; mark `[x]` only when confirmed stable.
-  - Original issue: after some logins, the external monitors remained on the Manjaro boot/loading screen while only eDP-1 was available to Xorg/i3.
-  - Changes done:
-    - Back up the file we're changing: `sudo cp /etc/default/grub /etc/default/grub.before-nvidia-kms`
-    - Edit `/etc/default/grub`: change `GRUB_CMDLINE_LINUX_DEFAULT='quiet splash udev.log_priority=3'` to `GRUB_CMDLINE_LINUX_DEFAULT='quiet splash udev.log_priority=3 nvidia_drm.modeset=1'`
-    - Regenerate GRUB: `sudo grub-mkconfig -o /boot/grub/grub.cfg`. No initramfs rebuild (`mkinitcpio -P`) needed — the temporary boot already proved the module + cmdline load fine, and this change only touches the kernel command line. 
-    - This enables NVIDIA DRM KMS early enough for SDDM/Xorg to claim the dock-connected outputs.
-  - Verified: `NVIDIA-G0`, HDMI-1-0, and DP-1-0 appear correctly after reboot, with no Xorg modesetting failure.
-  - Fallback: remove `nvidia_drm.modeset=1` temporarily from the GRUB entry by pressing `e`, then boot with `Ctrl+X` or `F10`.
-  - Permanent rollback: restore `/etc/default/grub.before-nvidia-kms` if available, run `sudo grub-mkconfig -o /boot/grub/grub.cfg`, and reboot.
+  - **Status:** Fix works on one boot, but stability is not yet confirmed. Keep this open until several cold boots and reboots pass without the external monitors getting stuck on the boot screen.
+  - **Action:** Continue testing cold boots and reboots with the dock connected. Report any failure; mark `[x]` only after stability is confirmed.
+  - **Original issue:** After some logins, the external monitors remained on the Manjaro boot/loading screen while only `eDP-1` was available to Xorg/i3.
+  - **Changes done:**
+    - Backed up `/etc/default/grub` with `sudo cp /etc/default/grub /etc/default/grub.before-nvidia-kms`.
+    - Added `nvidia_drm.modeset=1` to `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`.
+    - Regenerated GRUB with `sudo grub-mkconfig -o /boot/grub/grub.cfg`.
+    - No initramfs rebuild was needed because this only changed the kernel command line and the temporary boot already loaded the module successfully.
+    - Enabled NVIDIA DRM KMS early enough for SDDM/Xorg to claim the dock-connected outputs.
+  - **Verified:** `NVIDIA-G0`, `HDMI-1-0`, and `DP-1-0` appear correctly after reboot, with no Xorg modesetting failure.
+  - **Rollback:**
+    - **Temporary fallback:** Remove `nvidia_drm.modeset=1` from the GRUB entry by pressing `e`, then boot with `Ctrl+X` or `F10`.
+    - **Permanent rollback:** Restore `/etc/default/grub.before-nvidia-kms` if available, run `sudo grub-mkconfig -o /boot/grub/grub.cfg`, and reboot.
 
