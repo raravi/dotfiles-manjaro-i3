@@ -10,17 +10,21 @@
   - Address cases where `DP-1-0` remains disconnected after the dock is connected; reconnecting may fix the normal runtime case, but does not fix the boot-framebuffer case described in Issue 3.
   - Design a bounded retry or hotplug recovery path after the provider initialization issue is understood.
   - Avoid changing the layout script until the output is visible to X11.
-  - Likely diagnosis: this is likely a dock/NVIDIA DisplayPort link-training or hotplug event problem, not merely a delayed xrandr query. If DP-1-0 is absent entirely, monitor-layout.sh cannot enable it; polling or xrandr --output DP-1-0 --auto won’t help until the connector is registered. Next time it fails, capture before reconnecting the dock:
-    - xrandr --query
-    - xrandr --listproviders
-    - journalctl -b -k --no-pager | grep -iE 'drm|nvidia|displayport|hotplug'
+  - Likely diagnosis: this is likely a dock/NVIDIA DisplayPort link-training or hotplug event problem, not merely a delayed xrandr query. If DP-1-0 is absent entirely, monitor-layout.sh cannot enable it; polling or `xrandr --output DP-1-0 --auto` won’t help until the connector is registered. Next time it fails, capture before reconnecting the dock:
+    - `xrandr --query`
+    - `xrandr --listproviders`
+    - `journalctl -b -k --no-pager | grep -iE 'drm|nvidia|displayport|hotplug'`
 
 - [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
+  - Status: fix works on ONE boot, but NOT yet confirmed stable — keep this open until several cold boots/reboots pass without the external monitors getting stuck on the boot screen.
+  - Action: user continues testing cold boots and reboots with the dock connected and reports back; mark `[x]` only when confirmed stable.
   - Original issue: after some logins, the external monitors remained on the Manjaro boot/loading screen while only eDP-1 was available to Xorg/i3.
-  - Changed GRUB to include `nvidia_drm.modeset=1`; no initramfs changes were required.
-  - This enables NVIDIA DRM KMS early enough for SDDM/Xorg to claim the dock-connected outputs.
+  - Changes done:
+    - Back up the file we're changing: `sudo cp /etc/default/grub /etc/default/grub.before-nvidia-kms`
+    - Edit `/etc/default/grub`: change `GRUB_CMDLINE_LINUX_DEFAULT='quiet splash udev.log_priority=3'` to `GRUB_CMDLINE_LINUX_DEFAULT='quiet splash udev.log_priority=3 nvidia_drm.modeset=1'`
+    - Regenerate GRUB: `sudo grub-mkconfig -o /boot/grub/grub.cfg`. No initramfs rebuild (`mkinitcpio -P`) needed — the temporary boot already proved the module + cmdline load fine, and this change only touches the kernel command line. 
+    - This enables NVIDIA DRM KMS early enough for SDDM/Xorg to claim the dock-connected outputs.
   - Verified: `NVIDIA-G0`, HDMI-1-0, and DP-1-0 appear correctly after reboot, with no Xorg modesetting failure.
-  - Continue testing cold boots and reboots with the dock connected.
   - Fallback: remove `nvidia_drm.modeset=1` temporarily from the GRUB entry by pressing `e`, then boot with `Ctrl+X` or `F10`.
   - Permanent rollback: restore `/etc/default/grub.before-nvidia-kms` if available, run `sudo grub-mkconfig -o /boot/grub/grub.cfg`, and reboot.
 
