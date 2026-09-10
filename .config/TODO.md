@@ -16,6 +16,7 @@
     - journalctl -b -k --no-pager | grep -iE 'drm|nvidia|displayport|hotplug'
 
 - [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
+  - Original issue: after some logins, the external monitors remained on the Manjaro boot/loading screen while only eDP-1 was available to Xorg/i3.
   - Changed GRUB to include `nvidia_drm.modeset=1`; no initramfs changes were required.
   - This enables NVIDIA DRM KMS early enough for SDDM/Xorg to claim the dock-connected outputs.
   - Verified: `NVIDIA-G0`, HDMI-1-0, and DP-1-0 appear correctly after reboot, with no Xorg modesetting failure.
