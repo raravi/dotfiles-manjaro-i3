@@ -17,9 +17,9 @@ Use this structure for each issue:
 
 ## Multi-monitor setup
 
-- [x] ISSUE 1: Keep Alacritty font scale consistent across monitors.
-  - **Status:** Fixed and tested; keep monitoring after fresh logins.
-  - **Action:** Continue monitoring new Alacritty windows after switching monitor modes.
+- [ ] ISSUE 1: Keep Alacritty font scale consistent across monitors.
+  - **Status:** Fix applied; stability under monitoring.
+  - **Action:** Continue monitoring new Alacritty windows after fresh logins and monitor-mode switches. Mark `[x]` only after monitoring confirms no regression.
   - **Original issue:** Alacritty windows became larger when switching from single-monitor mode to multi-monitor mode.
   - **Likely diagnosis:** Alacritty/winit was applying different per-monitor DPI scale factors as windows moved between the laptop and external displays.
   - **Changes done:** Set `WINIT_X11_SCALE_FACTOR=1` in the i3 terminal binding and `startup.sh`.
@@ -39,8 +39,8 @@ Use this structure for each issue:
   - **Rollback:**
 
 - [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
-  - **Status:** Fix works on one boot, but stability is not yet confirmed. Keep this open until several cold boots and reboots pass without the external monitors getting stuck on the boot screen.
-  - **Action:** Continue testing cold boots and reboots with the dock connected. Report any failure; mark `[x]` only after stability is confirmed.
+  - **Status:** Fix applied; stability under monitoring.
+  - **Action:** Continue testing cold boots and reboots with the dock connected; report any failure. Mark `[x]` only after several boots pass without the boot-screen issue recurring.
   - **Original issue:** After some logins, the external monitors remained on the Manjaro boot/loading screen while only `eDP-1` was available to Xorg/i3.
   - **Likely diagnosis:** NVIDIA DRM KMS was not initialized early or consistently enough for SDDM/Xorg to claim the dock-connected outputs. In the failed boot, Xorg reported `Failed to acquire modesetting permission`, exposed only the Intel provider, and left the external displays on the boot framebuffer.
   - **Changes done:**
