@@ -18,8 +18,13 @@ Use this structure for each issue:
 ## Multi-monitor setup
 
 - [x] ISSUE 1: Keep Alacritty font scale consistent across monitors.
-  - Set `WINIT_X11_SCALE_FACTOR=1` in the i3 terminal binding and `startup.sh`.
-  - Continue monitoring after fresh logins.
+  - **Status:** Fixed and tested; keep monitoring after fresh logins.
+  - **Action:** Continue monitoring new Alacritty windows after switching monitor modes.
+  - **Original issue:** Alacritty windows became larger when switching from single-monitor mode to multi-monitor mode.
+  - **Likely diagnosis:** Alacritty/winit was applying different per-monitor DPI scale factors as windows moved between the laptop and external displays.
+  - **Changes done:** Set `WINIT_X11_SCALE_FACTOR=1` in the i3 terminal binding and `startup.sh`.
+  - **Verified:** New Alacritty windows retain a consistent font size across monitor modes after adjusting the configured font size.
+  - **Rollback:**
 
 - [ ] ISSUE 2: Improve runtime `DP-1-0` dock detection.
   - **Status:** Not yet fixed; investigate after confirming Issue 3 remains stable. Keep this open until runtime dock reconnection and DP detection are reliable.
