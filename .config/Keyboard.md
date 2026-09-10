@@ -7,6 +7,7 @@ I have remapped keys for easier typing.
 * `CapsLock` as Modifier key for **i3**.
 * `CapsLock` as `Esc` key.
 * `LeftShift` as `Ctrl` key.
+* `RightShift` as `Shift` key.
 
 These are important keys:
 * `;` as leader key in nvim.
