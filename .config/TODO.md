@@ -6,6 +6,8 @@ Use this structure for each issue.
 
 Status values used here: `Not started`, `Fixed`, `Monitoring`, `Closed`.
 
+Leave a field empty if it does not apply (e.g. `Action` for a fixed issue).
+
 - [ ] ISSUE N: Title
   - **Status:** ...
   - **Action:** ...
@@ -19,9 +21,9 @@ Status values used here: `Not started`, `Fixed`, `Monitoring`, `Closed`.
 
 ## Multi-monitor setup
 
-- [ ] ISSUE 1: Keep Alacritty font scale consistent across monitors.
-  - **Status:** Monitoring.
-  - **Action:** Continue monitoring new Alacritty windows after fresh logins and monitor-mode switches. Mark `[x]` only after monitoring confirms no regression.
+- [x] ISSUE 1: Keep Alacritty font scale consistent across monitors.
+  - **Status:** Fixed.
+  - **Action:**
   - **Original issue:** Alacritty windows became larger when switching from single-monitor mode to multi-monitor mode.
   - **Likely diagnosis:** Alacritty/winit was applying different per-monitor DPI scale factors as windows moved between the laptop and external displays.
   - **Changes done:** Set `WINIT_X11_SCALE_FACTOR=1` in the i3 terminal binding and `startup.sh`.
