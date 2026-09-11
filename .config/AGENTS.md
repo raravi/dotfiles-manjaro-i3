@@ -24,6 +24,7 @@ Last verified: 2026-09-09
 | `Install.md` | first-install package list |
 | `Keyboard.md` | key remaps + app shortcuts |
 | `ISSUES.md` | persistent issue list for tracking current issues in dotfiles |
+| `TODO.md` | task list for planned improvements to the dotfiles |
 
 `discord/settings.json` and `easyeffects/output/` are tracked app settings.
 
