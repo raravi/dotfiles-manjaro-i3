@@ -44,6 +44,15 @@ wait_for_layout() {
     return 1
 }
 
+log_display_diagnostics() {
+    local active monitors plymouth_state plymouth_result
+    active=$(xrandr --query 2>/dev/null | grep -cE '^[a-zA-Z0-9-]+ connected .*[0-9]+x[0-9]+\+[0-9]+\+[0-9]+')
+    monitors=$(xrandr --listmonitors 2>/dev/null | tr '\n' ' ')
+    plymouth_state=$(systemctl show plymouth-quit.service -p ActiveState --value 2>/dev/null || true)
+    plymouth_result=$(systemctl show plymouth-quit.service -p Result --value 2>/dev/null || true)
+    log "boot diagnostics: active_outputs=$active; monitors=${monitors:-unavailable}; plymouth_quit=${plymouth_state:-unknown}/${plymouth_result:-unknown}"
+}
+
 append_layouts() {
     local base="$HOME/.config/i3/layouts"
     log "appending workspace layouts"
@@ -73,6 +82,7 @@ launch_apps() {
 }
 
 wait_for_layout
+log_display_diagnostics
 append_layouts
 launch_apps
 log "done"
