@@ -23,7 +23,7 @@ Last verified: 2026-09-09
 | `nvim/` | neovim config |
 | `Install.md` | first-install package list |
 | `Keyboard.md` | key remaps + app shortcuts |
-| `TODO.md` | persistent task list for tracking current issues in dotfiles |
+| `ISSUES.md` | persistent issue list for tracking current issues in dotfiles |
 
 `discord/settings.json` and `easyeffects/output/` are tracked app settings.
 
