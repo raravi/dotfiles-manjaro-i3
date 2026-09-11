@@ -44,7 +44,7 @@ Leave a field empty if it does not apply (e.g. `Action` for a fixed issue).
 
 - [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
   - **Status:** Monitoring.
-  - **Action:** Continue testing cold boots and reboots with the dock connected; report any failure. Mark `[x]` only after several boots pass without the boot-screen issue recurring.
+  - **Action:** Continue testing cold boots and reboots with the dock connected; report any failure. If it recurs, apply the `nvidia_drm.fbdev=0` mitigation (see Changes done) and re-test. Mark `[x]` only after several boots pass without the boot-screen issue recurring.
   - **Original issue:** After some logins, the external monitors remained on the Manjaro boot/loading screen while only `eDP-1` was available to Xorg/i3.
   - **Likely diagnosis:** NVIDIA DRM KMS was not initialized early or consistently enough for SDDM/Xorg to claim the dock-connected outputs. In the failed boot, Xorg reported `Failed to acquire modesetting permission`, exposed only the Intel provider, and left the external displays on the boot framebuffer.
   - **Changes done:**
@@ -53,7 +53,10 @@ Leave a field empty if it does not apply (e.g. `Action` for a fixed issue).
     - Regenerated GRUB with `sudo grub-mkconfig -o /boot/grub/grub.cfg`.
     - No initramfs rebuild was needed because this only changed the kernel command line and the temporary boot already loaded the module successfully.
     - Enabled NVIDIA DRM KMS early enough for SDDM/Xorg to claim the dock-connected outputs.
-  - **Verified:** `NVIDIA-G0`, `HDMI-1-0`, and `DP-1-0` appear correctly after reboot, with no Xorg modesetting failure.
+    - Proposed fix (NOT yet applied): add `nvidia_drm.fbdev=0` to `GRUB_CMDLINE_LINUX_DEFAULT`. The NVIDIA GPU drives no console here (i915 owns fb0 and the VT), so its `nvidia-drmdrmfb` fb1 console can contend for DRM master at X startup; disabling it removes that contention source.
+  - **Verified:** `NVIDIA-G0`, `HDMI-1-0`, and `DP-1-0` appeared correctly after the initial reboot, with no Xorg modesetting failure.
+    - Regression on 2026-09-11 15:39: Xorg log shows `NVIDIA(GPU-0): Failed to acquire modesetting permission` / `NVIDIA(G0): Failing initialization of X screen`. The kernel had `card1-DP-1` and `card1-HDMI-A-1` connected, but X lost all NVIDIA outputs for the session, leaving the externals on the boot screen.
+    - Logging out and back in did not restore the external outputs, confirming that SDDM kept the failed Xorg server alive; a full Xorg restart is required to retest initialization.
   - **Rollback:**
     - **Temporary fallback:** Remove `nvidia_drm.modeset=1` from the GRUB entry by pressing `e`, then boot with `Ctrl+X` or `F10`.
     - **Permanent rollback:** Restore `/etc/default/grub.before-nvidia-kms` if available, run `sudo grub-mkconfig -o /boot/grub/grub.cfg`, and reboot.
