@@ -7,6 +7,7 @@
 
 .noti-center.time {
     font-size: 32px;
+    color: #bd9ad6;
 }
 
 /* Notifications */
@@ -19,7 +20,7 @@
 
 .title {
     font-weight: bold;
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 16px;
 }
 
@@ -33,20 +34,22 @@
 
 .time {
     font-size: 12px;
+    color: rgba(202, 179, 221, 0.6);
 }
 
 .blurredBG.notification {
     background: linear-gradient(130deg, rgba(0, 0, 0, 0.6), rgba(82, 61, 100, 0.6));
     border: 2pt #bd9ad6 solid;
-    border-radius: 10px;
+    border-radius: 14px;
 }
 
 .blurredBG.notification.critical {
-    background: rgba(255, 0, 0, 0.5);
+    background: linear-gradient(130deg, rgba(70, 12, 38, 0.8), rgba(122, 25, 60, 0.7));
+    border: 2pt #e5458a solid;
 }
 
 .notificationInCenter.critical {
-    background: rgba(155, 0, 20, 0.5);
+    background: rgba(122, 25, 60, 0.75);
 }
 
 /* Labels */
@@ -60,10 +63,10 @@ label.notification {
 }
 
 label.critical {
-    color: #000;
+    color: #ffe3ee;
 }
 .notificationInCenter label.critical {
-    color: #000;
+    color: #ffe3ee;
 }
 
 
