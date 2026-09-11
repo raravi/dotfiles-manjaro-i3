@@ -44,8 +44,8 @@
 }
 
 .blurredBG.notification.critical {
-    background: linear-gradient(130deg, rgba(70, 12, 38, 0.8), rgba(122, 25, 60, 0.7));
-    border: 2pt #e5458a solid;
+    background: linear-gradient(130deg, rgba(96, 22, 52, 0.8) 0%, rgba(150, 34, 76, 0.7) 55%, rgba(172, 120, 52, 0.6) 100%);
+    border: 2pt #bd9ad6 solid;
 }
 
 .notificationInCenter.critical {
