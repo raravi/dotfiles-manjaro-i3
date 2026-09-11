@@ -17,6 +17,6 @@ task if there is extra context (e.g. a decision or a dependency).
 - [ ] UI: Polybar — pill modules, Unicode block meters (CPU/RAM/GPU), FA7 icon consistency, colors
 - [ ] UI: i3 — borders, gaps, focus/urgent colors
 - [ ] UI: Rofi — theme polish: palette match, FA7 search icon, optional rofi power menu
-- [ ] UI: deadd — card/button/header styling to match palette
+- [x] UI: deadd — critical cards (raspberry glass w/ amber corner, lavender border, light text), 14px radius, center clock accent, muted timestamps, 19px titles; buttons + regular-card gradient kept original
 - [ ] UI: xborder — animated focused-window border (gradient/glow/pulse)
 - [ ] UI: picom — inactive-dim on unfocused windows
