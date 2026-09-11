@@ -13,7 +13,10 @@ task if there is extra context (e.g. a decision or a dependency).
 
 ## Tasks
 
-- [ ] UI: Improve Polybar look (config.ini styling, modules, fonts, colors)
-- [ ] UI: Improve i3 appearance (borders, gaps, focus colors)
-- [ ] UI: Improve Rofi themes (launcher/dmenu)
-- [ ] UI: Improve deadd notification styling (deadd.css)
+- [ ] UI: Unified palette — pick and apply a consistent accent palette across polybar, i3, rofi, deadd (lavender/pink and Rosé Pine attempts reverted)
+- [ ] UI: Polybar — pill modules, Unicode block meters (CPU/RAM/GPU), FA7 icon consistency, colors
+- [ ] UI: i3 — borders, gaps, focus/urgent colors
+- [ ] UI: Rofi — theme polish: palette match, FA7 search icon, optional rofi power menu
+- [ ] UI: deadd — card/button/header styling to match palette
+- [ ] UI: xborder — animated focused-window border (gradient/glow/pulse)
+- [ ] UI: picom — inactive-dim on unfocused windows

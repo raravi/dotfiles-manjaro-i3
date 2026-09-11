@@ -15,7 +15,7 @@ configuration {
     FGA:   #F28FADff;
     //BDR:   #96CDFBff;
     //BDR:   #523d64ff;
-    BDR:   #4a3065ff;
+    BDR:   #6b406e99;
     SEL:   #1E1E2Eff;
     UGT:   #F28FADff;
     IMG:   #FAE3B0ff;
@@ -27,12 +27,11 @@ configuration {
 
 window {
     transparency:             "real";
-    background-color:         @BG;
+    background-color:         @BDR;
     text-color:               @FG;
-    border:                   5px;
-    border-color:             @BDR;
-    border-radius:            10px;
-    padding:                  8px 12px 8px 12px;
+    border:                   0px;
+    border-radius:            12px;
+    padding:                  5px;
     width:                    320px;
     height:                   170px;
     //anchor:                   center;
@@ -102,10 +101,11 @@ listview {
 }
 
 mainbox {
-    background-color:         transparent;
+    background-color:         @BG;
+    border-radius:            8px;
     children:                 [ inputbar, listview ];
     spacing:                  6px;
-    padding:                  6px;
+    padding:                  9px 13px 9px 13px;
 }
 
 element {
