@@ -19,10 +19,12 @@ mapping="$nitrogen_dir/wallpapers.conf"
 saved_cfg="$nitrogen_dir/bg-saved.cfg"
 mode="${WALLPAPER_MODE:-5}"
 bgcolor="${WALLPAPER_BGCOLOR:-#000000}"
-startup_log="${STARTUP_LOG:-/tmp/i3-startup.log}"
+startup_log="${STARTUP_LOG:-$HOME/.config/log/i3-startup.log}"
 log() {
     printf '%s wallpaper-apply: %s\n' "$(date '+%F %T')" "$*" >> "$startup_log"
 }
+
+mkdir -p "$(dirname "$startup_log")"
 
 if [[ ! -f "$mapping" ]]; then
     log "no mapping at $mapping; skipping"

@@ -43,8 +43,8 @@ Last verified: 2026-09-09
   - `multi` and `all` require both external monitors.
   - The script restarts polybar, xborders, key remapping, and wallpapers after layout changes.
   - Layout settling uses a 1.5s initial delay plus polling for up to 4.5s, then fails open.
-- **Startup race fix**: `i3/scripts/startup.sh` runs once at login through plain `exec`. It waits for the display layout, appends workspace layouts 1/3/5, then launches Spotify, four Alacritty instances, Brave, Notion, and Discord. It is not re-run on i3 reload. Logs go to `/tmp/i3-startup.log`; overrides are `STARTUP_TIMEOUT`, `STARTUP_POLL`, `STARTUP_NO_APPS=1`, and `STARTUP_LOG`.
-- **Per-screen wallpapers**: `i3/scripts/wallpaper-apply.sh` rebuilds `nitrogen/bg-saved.cfg` from the live `xrandr --listmonitors` order and maps connectors through `nitrogen/wallpapers.conf`. It applies each mapped wallpaper explicitly with Nitrogen's per-head mode, retrying up to 5 times with a 1-second delay for slow external monitors. Diagnostic messages go to `STARTUP_LOG` (default `/tmp/i3-startup.log`), while Nitrogen output goes to `/tmp/wallpaper-apply.log` or the `WALLPAPER_LOG` override.
+- **Startup race fix**: `i3/scripts/startup.sh` runs once at login through plain `exec`. It waits for the display layout, appends workspace layouts 1/3/5, then launches Spotify, four Alacritty instances, Brave, Notion, and Discord. It is not re-run on i3 reload. Logs go to `~/.config/log/i3-startup.log`; overrides are `STARTUP_TIMEOUT`, `STARTUP_POLL`, `STARTUP_NO_APPS=1`, and `STARTUP_LOG`.
+- **Per-screen wallpapers**: `i3/scripts/wallpaper-apply.sh` rebuilds `nitrogen/bg-saved.cfg` from the live `xrandr --listmonitors` order and maps connectors through `nitrogen/wallpapers.conf`. It applies each mapped wallpaper explicitly with Nitrogen's per-head mode, retrying up to 5 times with a 1-second delay for slow external monitors. Diagnostic messages go to `STARTUP_LOG` (default `~/.config/log/i3-startup.log`), while Nitrogen output goes to `/tmp/wallpaper-apply.log` or the `WALLPAPER_LOG` override.
 - **Workspace and application assignments**:
   - Workspaces 1-2 -> eDP-1
   - Workspaces 3-4 -> primary

@@ -12,12 +12,14 @@
 # Login only (plain `exec` in i3 config) — reloads (`i3-msg reload`) re-run
 # exec_always, not exec, so this never re-appends layouts or re-launches apps.
 
-LOG="${STARTUP_LOG:-/tmp/i3-startup.log}"
+LOG="${STARTUP_LOG:-$HOME/.config/log/i3-startup.log}"
 TIMEOUT="${STARTUP_TIMEOUT:-30}"          # seconds, then fail-open
 POLL_INTERVAL="${STARTUP_POLL:-0.5}"      # settle check cadence
 NO_APPS="${STARTUP_NO_APPS:-0}"
 
 log() { echo "$(date '+%F %T') startup: $*" >> "$LOG"; }
+
+mkdir -p "$(dirname "$LOG")"
 
 wait_for_layout() {
     local expected active ticks=0

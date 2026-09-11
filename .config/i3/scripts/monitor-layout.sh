@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-LOG="${STARTUP_LOG:-/tmp/i3-startup.log}"
+LOG="${STARTUP_LOG:-$HOME/.config/log/i3-startup.log}"
 log() {
     printf '%s monitor-layout: %s\n' "$(date '+%F %T')" "$*" >> "$LOG"
 }
+
+mkdir -p "$(dirname "$LOG")"
 
 log "invoked: ${1:-auto}"
 
