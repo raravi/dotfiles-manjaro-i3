@@ -55,6 +55,7 @@ Last verified: 2026-09-09
 - `i3-msg reload` re-runs every `exec_always`, including `monitor-layout.sh auto`, which can override a manual `single` layout when both externals are docked.
 - **Notifications**: `deadd-notification-center` is the daemon; `notify-send` is the client used by `monitor-layout.sh` (guarded with `command -v`). Toggle the center with `Mod+n`.
 - Lock screen: `xss-lock` → `betterlockscreen -l blur` (blur + dim). Lock wallpaper cache lives under `~/.cache/betterlockscreen/` — re-run `betterlockscreen -u <wallpaper>` to refresh it (currently `~/Pictures/Walls/apex_octane.jpg`). Used by suspend and the shutdown menu's Lock action.
+- **Icon fonts in rofi (pango)**: pango cannot rasterize the FA7 WOFF2 files (`/usr/share/fonts/WOFF2/fa-*.woff2`, package `woff2-font-awesome`) — FA codepoints render as pango "hexboxes" even though fontconfig lists them (`fc-list ':charset=f002'` includes FA7). Polybar is unaffected: it loads the font file directly via freetype. For rofi icon glyphs use **Hack Nerd Font** (TTF, ships the FA codepoints, e.g. U+F002 = search): set `font: "Hack Nerd Font 20"` and put the raw U+F002 character in the `str` (rofi does not support `\uXXXX` escapes in theme strings).
 - Live anomaly (2026-09-05): two `deadd-notification-center` instances run (one from i3 `exec_always`, one D-Bus-activated by systemd --user). Don't assume which is "the" daemon.
 
 ## xborder gotcha

@@ -40,12 +40,12 @@ window {
 
 textbox-prompt-colon {
     expand: 			            false;
-    str: 			                "🔍";
+    str: 			                "";
     border-radius:            100%;
     background-color:         transparent;
     text-color:               @FG;
     padding:                  12px 24px 0px 12px;
-    font:			                "FontAwesome6FreeSolid 20";
+    font:			                "Hack Nerd Font 20";
 }
 
 prompt {
