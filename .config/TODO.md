@@ -19,4 +19,3 @@ task if there is extra context (e.g. a decision or a dependency).
 - [x] UI: Rofi — search icon switched to Hack Nerd Font U+F002 (FA7 WOFF2 unusable by pango), icon padding, xborder-matched border (#6b406e99), two-frame window design
 - [x] UI: deadd — critical cards (raspberry glass w/ amber corner, lavender border, light text), 14px radius, center clock accent, muted timestamps, 19px titles; buttons + regular-card gradient kept original
 - [x] UI: xborder — animated focused-window border (gradient/glow/pulse) — closed: xborder v3.4 has no animation/gradient support (flat cairo stroke only); patching the local clone would mean maintaining an untracked fork. Revisit only if upstream adds it
-- [x] UI: picom — inactive-dim on unfocused windows
