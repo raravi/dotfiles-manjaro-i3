@@ -1,6 +1,6 @@
 # TODO
 
-## Issue entry structure
+## Structure
 
 Use this structure for each issue.
 
@@ -19,7 +19,7 @@ Leave a field empty if it does not apply (e.g. `Action` for a fixed issue).
     - **Temporary fallback:** ...
     - **Permanent rollback:** ...
 
-## Multi-monitor setup
+## Issues
 
 - [x] ISSUE 1: Keep Alacritty font scale consistent across monitors.
   - **Status:** Fixed.
@@ -62,4 +62,17 @@ Leave a field empty if it does not apply (e.g. `Action` for a fixed issue).
   - **Rollback:**
     - **Temporary fallback:** Remove `nvidia_drm.modeset=1` from the GRUB entry by pressing `e`, then boot with `Ctrl+X` or `F10`.
     - **Permanent rollback:** Restore `/etc/default/grub.before-nvidia-kms` if available, run `sudo grub-mkconfig -o /boot/grub/grub.cfg`, and reboot.
+
+- [ ] ISSUE 4: `Ctrl+S` XOFF terminal freeze.
+  - **Status:** Monitoring.
+  - **Action:** Keep the flow-control tweak in `~/.zshrc` and monitor new shells for regressions:
+    - Applied with `stty -ixon -ixoff` (`Ctrl+S` and `Ctrl+Q` both freed).
+    - Not possible in i3 config: `exec` runs commands without a controlling tty, so `stty` fails with `standard input: Not a tty`.
+  - **Original issue:** Pressing `Ctrl+S` in a terminal triggered XOFF flow control, freezing terminal output until `Ctrl+Q` (XON) was pressed. It looked like keys "doing nothing".
+  - **Likely diagnosis:** The terminal line discipline interprets `Ctrl+S` as XOFF (stop output) and `Ctrl+Q` as XON (resume); this is default tty flow-control behavior, not a shell or i3 problem.
+  - **Changes done:** Added `stty -ixon -ixoff` to `~/.zshrc` (line 17).
+  - **Verified:** `grep -n 'stty' ~/.zshrc` shows the line; confirm new terminal sessions no longer freeze on `Ctrl+S`.
+  - **Rollback:**
+    - **Temporary fallback:** Run `stty ixon ixoff` to re-enable flow control (restores the XOFF freeze).
+    - **Permanent rollback:** Remove the `stty -ixon -ixoff` line from `~/.zshrc`.
 
