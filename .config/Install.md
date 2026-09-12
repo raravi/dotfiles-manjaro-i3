@@ -36,6 +36,7 @@ pamac install picom
 For better status bar
 ```bash
 pamac install ttf-font-awesome ttc-monocraft polybar
+pamac install playerctl
 ```
 
 For better sound
