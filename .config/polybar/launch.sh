@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
 
 mode=${1:-pills}
+state="$HOME/.cache/polybar-mode"
+if [ "$mode" = "toggle" ]; then
+    current=$(cat "$state" 2>/dev/null || printf 'pills')
+    if [ "$current" = "pills" ]; then
+        mode=original
+    else
+        mode=pills
+    fi
+fi
 case "$mode" in
     pills) config="$HOME/.config/polybar/config.ini" ;;
     original) config="$HOME/.config/polybar/config-original.ini" ;;
-    *) printf 'Usage: %s [pills|original]\n' "$0" >&2; exit 2 ;;
+    *) printf 'Usage: %s [pills|original|toggle]\n' "$0" >&2; exit 2 ;;
 esac
+printf '%s\n' "$mode" > "$state"
 
 # Terminate already running bar instances
 # If all your bars have ipc enabled, you can use 
