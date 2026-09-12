@@ -2,7 +2,7 @@
 
 Keeps an agent grounded when modifying this user's dotfiles. Read me first.
 
-Last verified: 2026-09-09
+Last verified: 2026-09-12
 
 ## Layout overview
 
@@ -13,7 +13,7 @@ Last verified: 2026-09-09
 | `i3/scripts/` | custom scripts — `monitor-layout.sh`, `startup.sh`, `wallpaper-apply.sh` |
 | `i3/layouts/` | saved workspace layouts (1, 3, 5) |
 | `i3/blocklets/` | menu scripts (e.g. `shutdown_menu`) |
-| `polybar/` | bar: `launch.sh` + `config.ini` |
+| `polybar/` | bar: pill/original configs, `launch.sh`, and CPU/RAM/GPU scripts |
 | `xborder/` | border daemon (upstream clone of deter0/xborder) |
 | `picom/` | compositor config (`picom.conf`) |
 | `alacritty/` | terminal config + themes |
@@ -52,6 +52,8 @@ Last verified: 2026-09-09
   - Workspaces 5-6 -> DP-1-0
   - Notion -> workspace 1
   - Discord -> workspace 5
+- **Polybar modes:** `~/.config/polybar/launch.sh pills` runs the current pill layout; `original` runs the full bar layout; `toggle` switches between them using `~/.cache/polybar-mode`. Pills are the default. `Mod+Shift+p` toggles modes. The primary bar has the tray outside the right pill; secondary bars show only battery and PulseAudio on the right.
+  - **Pill mode - styling:** pill backgrounds use opaque Rosepine theme base `#26233a`; CPU, RAM, and GPU use five-block meters. RAM shows only its meter; CPU and GPU show meter plus temperature.
 - `i3-msg reload` re-runs every `exec_always`, including `monitor-layout.sh auto`, which can override a manual `single` layout when both externals are docked.
 - **Notifications**: `deadd-notification-center` is the daemon; `notify-send` is the client used by `monitor-layout.sh` (guarded with `command -v`). Toggle the center with `Mod+n`.
 - Lock screen: `xss-lock` → `betterlockscreen -l blur` (blur + dim). Lock wallpaper cache lives under `~/.cache/betterlockscreen/` — re-run `betterlockscreen -u <wallpaper>` to refresh it (currently `~/Pictures/Walls/apex_octane.jpg`). Used by suspend and the shutdown menu's Lock action.
@@ -73,6 +75,9 @@ i3-msg reload                   # live-reload i3 (re-runs exec_always!)
 bash -n ~/.config/i3/scripts/monitor-layout.sh
 bash -n ~/.config/i3/scripts/startup.sh
 bash -n ~/.config/i3/scripts/wallpaper-apply.sh
+bash -n ~/.config/polybar/*.sh
+polybar --config ~/.config/polybar/config.ini bar
+polybar --config ~/.config/polybar/config-original.ini bar
 polybar --list-monitors
 xrandr --query                  # current display layout
 pgrep -a polybar; pgrep -a xborders
