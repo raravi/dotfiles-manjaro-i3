@@ -15,11 +15,9 @@ render() {
     track=$artist
     [ -n "$artist" ] && [ -n "$title" ] && track="$artist - $title"
     [ "${#track}" -gt 30 ] && track="${track:0:29}..."
-    if [ -n "$track" ]; then
-        printf '%s%s%s %s\n' "$color_primary" "$icon" "$color_reset" "$track"
-    else
-        printf '%s%s%s\n' "$color_primary" "$icon" "$color_reset"
-    fi
+    body="$color_primary$icon$color_reset"
+    [ -n "$track" ] && body="$body $track"
+    printf '%s\n' "$body"
 }
 
 while true; do
