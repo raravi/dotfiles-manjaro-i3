@@ -3,7 +3,8 @@
 # Bluetooth flyout popup (media-popup style): floating scratchpad Alacritty.
 #
 # Lists paired devices with connected/battery state. j/k or arrows select,
-# Enter/Space toggles connect/disconnect, q/Esc hides. Renders live at 1 Hz.
+# Enter/Space toggles connect/disconnect, r unpairs, Esc hides.
+# Renders live at 1 Hz.
 
 mark=bluetooth_popup
 accent='\e[38;2;240;198;116m'
@@ -91,7 +92,8 @@ render() {
     printf '%b\n' "$eol"
 
     [ -n "$feedback" ] && printf '%b\n' "${feedback}${eol}"
-    printf '%b\n' "${dim}j/k select · enter toggle · q hide${rst}${eol}"
+    printf '%b\n' "${dim}j/k select · enter toggle${rst}${eol}"
+    printf '%b\n' "${dim}r remove · esc hide${rst}${eol}"
 }
 
 toggle_device() {
@@ -114,6 +116,19 @@ toggle_device() {
         else
             feedback="${red}✘${rst} failed to connect ${name} (reachable?)"
         fi
+    fi
+}
+
+remove_device() {
+    local conn bat mac name
+    [ "${#devices_tabsep[@]}" -eq 0 ] && return
+    IFS="$SEP" read -r conn bat mac name <<<"${devices_tabsep[$sel]}"
+    feedback="${dim}removing ${name}…${rst}"
+    printf '\e[H%s\e[J' "$(render)"
+    if bluetoothctl remove "$mac" >/dev/null 2>&1; then
+        feedback="${green}✔${rst} ${name} removed"
+    else
+        feedback="${red}✘${rst} failed to remove ${name}"
     fi
 }
 
@@ -143,10 +158,10 @@ loop() {
             continue
         fi
         case "$key" in
-            q) i3-msg "[con_mark=$mark] move scratchpad" >/dev/null 2>&1 ;;
             j) [ "$sel" -lt $(( ${#devices_tabsep[@]} - 1 )) ] && sel=$((sel + 1)) ;;
             k) [ "$sel" -gt 0 ] && sel=$((sel - 1)) ;;
             "" | " " | $'\r') toggle_device ;;
+            r) remove_device ;;
         esac
     done
 }
