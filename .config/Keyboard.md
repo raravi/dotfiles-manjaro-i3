@@ -27,6 +27,11 @@ Relevant physical keyboard layout (`*` marks remapped / important keys):
 | Cmd | Remapped Cmd | Action |
 |-|-|-|
 | `Super+m` | `CapsLock+m` | toggle Spotify media popup |
+| `Super+b` | `CapsLock+b` | toggle Bluetooth popup |
+| `Super+n` | `CapsLock+n` | toggle notification center |
+| `Super+Shift+m` | `CapsLock+Shift+m` | cycle monitor layout (single → multi → all) |
+| `Super+Shift+p` | `CapsLock+Shift+p` | toggle polybar pill/original mode |
+| `Ctrl+Super+Delete` | `LeftShift+CapsLock+Delete` | shutdown/reboot/lock/logout menu |
 
 ### Terminal Copy/Paste
 
