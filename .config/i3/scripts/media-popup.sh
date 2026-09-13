@@ -115,7 +115,7 @@ loop() {
             last=$frame
         fi
         key=""
-        read -rsn1 -t 1 key || continue
+        IFS= read -rsn1 -t 1 key || continue
         case "$key" in
             q | "$esc") i3-msg "[con_mark=$mark] move scratchpad" >/dev/null 2>&1 ;;
             " ") playerctl -p spotify play-pause >/dev/null 2>&1 ;;
