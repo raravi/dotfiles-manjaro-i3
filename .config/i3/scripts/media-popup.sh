@@ -10,6 +10,8 @@ rst='\e[0m'
 eol=$'\e[K'
 bar_w=26
 max_col=44
+dim_cols=44
+dim_lines=28
 
 get_pos() {
     local p i
@@ -49,7 +51,7 @@ art_frame() {
         [ -f "$file" ] || curl -fsSL --max-time 10 -o "$file" "$art_url" 2>/dev/null
     fi
     if command -v chafa >/dev/null 2>&1 && [ -f "$file" ]; then
-        art_cache=$(chafa --size 32x16 "$file" 2>/dev/null)
+        art_cache=$(chafa --size 42x21 "$file" 2>/dev/null)
     else
         art_cache=$(printf '%b' "${dim}( install chafa for cover art )${rst}")
     fi
@@ -109,7 +111,7 @@ loop() {
     while true; do
         frame=$(render)
         if [ "$frame" != "$last" ]; then
-            printf '\e[H%s\n\e[J' "$frame"
+            printf '\e[H%s\e[J' "$frame"
             last=$frame
         fi
         key=""
@@ -136,11 +138,11 @@ toggle() {
     script=$(readlink -f "${BASH_SOURCE[0]}")
     node=$(i3-msg -t get_tree 2>/dev/null | jq -r '.. | objects | select((.marks? // []) | index("media_popup")) | .output' 2>/dev/null | head -1)
     if [ -z "$node" ]; then
-        setsid -f alacritty --class media-popup -e "$script" >/dev/null 2>&1
+        setsid -f alacritty --class media-popup -o window.dimensions.columns=$dim_cols -o window.dimensions.lines=$dim_lines -e "$script" >/dev/null 2>&1
         local i n
         for i in $(seq 1 20); do
             sleep 0.1
-            i3-msg '[class="^media-popup$"] floating enable, sticky enable, border none, resize set width 460 px height 500 px, mark media_popup' >/dev/null 2>&1
+            i3-msg '[class="^media-popup$"] floating enable, sticky enable, border none, mark media_popup' >/dev/null 2>&1
             n=$(i3-msg -t get_tree 2>/dev/null | jq -r '[.. | objects | select((.marks? // []) | index("media_popup"))] | length' 2>/dev/null)
             [ "${n:-0}" -ge 1 ] && { position_popup; return; }
         done

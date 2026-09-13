@@ -42,7 +42,8 @@ default_floating_border pixel 1
 for_window [class="^.*"] border pixel 1
 
 # Spotify media popup: floating scratchpad flyout, toggled with $mod+m
-for_window [class="^media-popup$"] floating enable, sticky enable, border none, resize set width 460 px height 500 px, mark media_popup
+# Window is sized to content by alacritty (window.dimensions in media-popup.sh)
+for_window [class="^media-popup$"] floating enable, sticky enable, border none, mark media_popup
 
 # Audio volume via pactl (PulseAudio)
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
