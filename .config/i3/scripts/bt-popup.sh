@@ -4,20 +4,25 @@
 #
 # Lists paired devices with connected/battery state. j/k or arrows select,
 # Space toggles connect/disconnect, r unpairs, Esc hides.
-# Renders live at 1 Hz.
+# Renders live at 1 Hz. Window size adapts to the device count at spawn.
 
 mark=bluetooth_popup
-accent='\e[38;2;240;198;116m'
-green='\e[38;2;166;227;161m'
-red='\e[38;2;243;139;168m'
-dim='\e[2m'
-bold='\e[1m'
-rst='\e[0m'
+accent=$'\e[38;2;240;198;116m'
+green=$'\e[38;2;166;227;161m'
+red=$'\e[38;2;243;139;168m'
+dim=$'\e[2m'
+bold=$'\e[1m'
+rst=$'\e[0m'
 eol=$'\e[K'
-dim_cols=34
-dim_lines=12
+dim_cols=36
 popup_x_off=128
 popup_bottom=64
+
+# Title banner (half-block glyphs, embedded; %s-printed so backslashes are literal)
+BANNER=(
+'█▀▀▄ ▐ ▐ ▌ ▄▀▀ ▄▐ ▄▀▄ ▄▀▄ ▄▐ █▄▄'
+'█▄▄█ ▐ ▄▄▄ ▀▄▄  ▐ ▀▄▀ ▀▄▀  ▐ █ █'
+)
 
 feedback=""
 
@@ -36,6 +41,9 @@ devices() {
         line=${line#\#Device }
         line=${line#Device }
         local mac=${line%% *} name=${line#* }
+        if [ "${#name}" -gt 20 ]; then
+            name="${name:0:19}…"
+        fi
         local conn
         if bluetoothctl info "$mac" 2>/dev/null | grep -q 'Connected: yes'; then
             conn=yes
@@ -57,14 +65,17 @@ clamp_sel() {
 }
 
 render() {
-    local powered i row conn bat mac name arrow
+    local powered i row conn bat mac name arrow bline
     printf '%b\n' "$eol"
     if bluetoothctl show 2>/dev/null | grep -q 'Powered: yes'; then
         powered=on
     else
         powered=off
     fi
-    printf '%b\n' "${bold}${accent}Bluetooth${rst} ${dim}· adapter ${powered}${rst}${eol}"
+    for bline in "${BANNER[@]}"; do
+        printf '%s\n' "${bold}${accent}${bline}${rst}${eol}"
+    done
+    printf '%b\n' "${dim}· adapter ${powered}${rst}${eol}"
     printf '%b\n' "$eol"
 
     local count=${#devices_tabsep[@]}
@@ -91,7 +102,7 @@ render() {
     fi
     printf '%b\n' "$eol"
 
-    [ -n "$feedback" ] && printf '%b\n' "${feedback}${eol}"
+    printf '%b\n' "${feedback}${eol}"
     printf '%b\n' "${dim}j/k select · space toggle${rst}${eol}"
     printf '%b\n' "${dim}r remove · esc hide${rst}${eol}"
 }
@@ -106,7 +117,7 @@ toggle_device() {
         if bluetoothctl disconnect "$mac" >/dev/null 2>&1; then
             feedback="${green}✔${rst} ${name} disconnected"
         else
-            feedback="${red}✘${rst} failed to disconnect ${name}"
+            feedback="${red}✘${rst} disconnect failed"
         fi
     else
         feedback="${dim}connecting ${name}…${rst}"
@@ -114,7 +125,7 @@ toggle_device() {
         if bluetoothctl connect "$mac" >/dev/null 2>&1; then
             feedback="${green}✔${rst} ${name} connected"
         else
-            feedback="${red}✘${rst} failed to connect ${name} (reachable?)"
+            feedback="${red}✘${rst} connect failed (reachable?)"
         fi
     fi
 }
@@ -128,7 +139,7 @@ remove_device() {
     if bluetoothctl remove "$mac" >/dev/null 2>&1; then
         feedback="${green}✔${rst} ${name} removed"
     else
-        feedback="${red}✘${rst} failed to remove ${name}"
+        feedback="${red}✘${rst} remove failed"
     fi
 }
 
@@ -180,11 +191,14 @@ position_popup() {
 }
 
 toggle() {
-    local script node
+    local script node ndev lines
     script=$(readlink -f "${BASH_SOURCE[0]}")
+    ndev=$(bluetoothctl devices Paired 2>/dev/null | grep -c .)
+    [ "${ndev:-0}" -ge 1 ] || ndev=1
+    lines=$(( 9 + ndev ))
     node=$(i3-msg -t get_tree 2>/dev/null | jq -r '.. | objects | select((.marks? // []) | index("bluetooth_popup")) | .output' 2>/dev/null | head -1)
     if [ -z "$node" ]; then
-        setsid -f alacritty --class bluetooth-popup -o window.dimensions.columns=$dim_cols -o window.dimensions.lines=$dim_lines -e "$script" >/dev/null 2>&1
+        setsid -f alacritty --class bluetooth-popup -o window.dimensions.columns=$dim_cols -o window.dimensions.lines=$lines -e "$script" >/dev/null 2>&1
         local i n
         for i in $(seq 1 20); do
             sleep 0.1
