@@ -3,7 +3,7 @@
 # Bluetooth flyout popup (media-popup style): floating scratchpad Alacritty.
 #
 # Lists paired devices with connected/battery state. j/k or arrows select,
-# Enter/Space toggles connect/disconnect, r unpairs, Esc hides.
+# Space toggles connect/disconnect, r unpairs, Esc hides.
 # Renders live at 1 Hz.
 
 mark=bluetooth_popup
@@ -92,7 +92,7 @@ render() {
     printf '%b\n' "$eol"
 
     [ -n "$feedback" ] && printf '%b\n' "${feedback}${eol}"
-    printf '%b\n' "${dim}j/k select · enter toggle${rst}${eol}"
+    printf '%b\n' "${dim}j/k select · space toggle${rst}${eol}"
     printf '%b\n' "${dim}r remove · esc hide${rst}${eol}"
 }
 
@@ -160,7 +160,7 @@ loop() {
         case "$key" in
             j) [ "$sel" -lt $(( ${#devices_tabsep[@]} - 1 )) ] && sel=$((sel + 1)) ;;
             k) [ "$sel" -gt 0 ] && sel=$((sel - 1)) ;;
-            "" | " " | $'\r') toggle_device ;;
+            " ") toggle_device ;;
             r) remove_device ;;
         esac
     done
