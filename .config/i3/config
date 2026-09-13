@@ -31,6 +31,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l blur
 exec --no-startup-id nm-applet --indicator
 # Bluetooth tray applet
 exec --no-startup-id blueman-applet
+# Cover-art notifications on Spotify track change
+exec --no-startup-id $HOME/.config/i3/scripts/spotify-notify.sh
 # Notification daemon & center
 exec_always --no-startup-id deadd-notification-center
 

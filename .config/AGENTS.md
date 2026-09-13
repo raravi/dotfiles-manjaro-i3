@@ -10,7 +10,7 @@ Last verified: 2026-09-12
 |------|---------|
 | `i3/config` | i3 wm config; keybindings, workspaces, autostart |
 | `i3/keys-remap.sh` | key remapping (CapsLock→Super/Esc, Left Shift→Ctrl) |
-| `i3/scripts/` | custom scripts — `monitor-layout.sh`, `startup.sh`, `wallpaper-apply.sh` |
+| `i3/scripts/` | custom scripts — `monitor-layout.sh`, `startup.sh`, `wallpaper-apply.sh`, `spotify-notify.sh` |
 | `i3/layouts/` | saved workspace layouts (1, 3, 5) |
 | `i3/blocklets/` | menu scripts (e.g. `shutdown_menu`) |
 | `polybar/` | bar: pill/original configs, `launch.sh`, and CPU/RAM/GPU scripts |
@@ -58,9 +58,11 @@ Last verified: 2026-09-12
   - **Media module:** `[module/media]` (custom/script, `tail = true`) runs `polybar/media.sh` as its own pill beside workspaces (`modules-left = xworkspaces pad pill-left pill-pad media pill-pad pill-right`, standard pill modules + `format-background = ${colors.pill}`; original config: `xworkspaces media`). Event-driven via `playerctl -F -p spotify metadata` (follow emits on status AND metadata changes; v2.4.1). Play/pause action icon (U+F04B/U+F04C) + `artist - title` (30-char truncation). When Spotify is not running the script prints nothing, but the surrounding static pill caps/pads still render as an empty pill shell (known trade-off). Clicks: left play/pause, right next, middle previous — all `-p spotify` so browser MPRIS players (Brave, plasma-browser-integration) are ignored. Needs `playerctl`.
 - `i3-msg reload` re-runs every `exec_always`, including `monitor-layout.sh auto`, which can override a manual `single` layout when both externals are docked.
 - **Notifications**: `deadd-notification-center` is the daemon; `notify-send` is the client used by `monitor-layout.sh` (guarded with `command -v`). Toggle the center with `Mod+n`.
+- **Spotify cover notifications**: `i3/scripts/spotify-notify.sh` (plain `exec` in i3 config, no dupes on reload) fires a cover-art notification on track change; only while Playing, deduped by `artist - title`. Art cached in `~/.cache/spotify-art/` keyed by Spotify image ID.
 - Lock screen: `xss-lock` → `betterlockscreen -l blur` (blur + dim). Lock wallpaper cache lives under `~/.cache/betterlockscreen/` — re-run `betterlockscreen -u <wallpaper>` to refresh it (currently `~/Pictures/Walls/apex_octane.jpg`). Used by suspend and the shutdown menu's Lock action.
 - **Icon fonts in rofi (pango)**: pango cannot rasterize the FA7 WOFF2 files (`/usr/share/fonts/WOFF2/fa-*.woff2`, package `woff2-font-awesome`) — FA codepoints render as pango "hexboxes" even though fontconfig lists them (`fc-list ':charset=f002'` includes FA7). Polybar is unaffected: it loads the font file directly via freetype. For rofi icon glyphs use **Hack Nerd Font** (TTF, ships the FA codepoints, e.g. U+F002 = search): set `font: "Hack Nerd Font 20"` and put the raw U+F002 character in the `str` (rofi does not support `\uXXXX` escapes in theme strings).
 - Live anomaly (2026-09-05): two `deadd-notification-center` instances run (one from i3 `exec_always`, one D-Bus-activated by systemd --user). Don't assume which is "the" daemon.
+- **deadd quirk**: image hints are only treated as files with a `file://` prefix — bare paths parse as icon names and land in the `.icon` widget, which `deadd.css` hides (`opacity: 0`).
 
 ## xborder gotcha
 
