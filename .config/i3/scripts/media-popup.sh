@@ -51,7 +51,7 @@ art_frame() {
         [ -f "$file" ] || curl -fsSL --max-time 10 -o "$file" "$art_url" 2>/dev/null
     fi
     if command -v chafa >/dev/null 2>&1 && [ -f "$file" ]; then
-        art_cache=$(chafa --size 42x21 "$file" 2>/dev/null)
+        art_cache=$(chafa --font-ratio 1/2 --size 42x21 "$file" 2>/dev/null)
     else
         art_cache=$(printf '%b' "${dim}( install chafa for cover art )${rst}")
     fi

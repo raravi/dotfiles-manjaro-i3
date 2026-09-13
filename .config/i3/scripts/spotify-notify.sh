@@ -3,6 +3,9 @@
 cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/spotify-art"
 mkdir -p "$cache_dir"
 
+exec 9>"${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/spotify-notify.lock"
+flock -n 9 || exit 0
+
 fmt=$'{{status}}\t{{mpris:artUrl}}\t{{title}}\t{{artist}}\t{{album}}'
 last=""
 
