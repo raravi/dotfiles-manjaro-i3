@@ -15,7 +15,9 @@ bold=$'\e[1m'
 rst=$'\e[0m'
 eol=$'\e[K'
 dim_cols=36
-popup_x_off=128
+# Right-edge alignment: popup right edge sits popup_right_off px from the
+# monitor's right edge; bottom edge popup_bottom px above it (bar ≈ 48px tall)
+popup_right_off=450
 popup_bottom=64
 
 # Title banner (half-block glyphs, embedded; %s-printed so backslashes are literal)
@@ -187,7 +189,7 @@ position_popup() {
     [ -z "$out" ] && out=$(i3-msg -t get_workspaces 2>/dev/null | jq -r '.[] | select(.focused).output')
     rect=$(i3-msg -t get_tree 2>/dev/null | jq -r --arg o "$out" '.. | objects | select(.type? == "output" and .name? == $o) | "\(.rect.x) \(.rect.y) \(.rect.width) \(.rect.height)"')
     read -r ox oy ow oh <<<"$rect"
-    [ -n "$ox" ] && i3-msg "[con_mark=$mark] move position $((ox + popup_x_off)) px $((oy + oh - popup_bottom - gh)) px" >/dev/null 2>&1
+    [ -n "$ox" ] && i3-msg "[con_mark=$mark] move position $(( ox + ow - gw - popup_right_off )) px $(( oy + oh - popup_bottom - gh )) px" >/dev/null 2>&1
 }
 
 toggle() {
