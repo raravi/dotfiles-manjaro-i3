@@ -41,6 +41,9 @@ default_border pixel 1
 default_floating_border pixel 1
 for_window [class="^.*"] border pixel 1
 
+# Spotify media popup: floating scratchpad flyout, toggled with $mod+m
+for_window [class="^media-popup$"] floating enable, sticky enable, border none, resize set width 460 px height 500 px, mark media_popup
+
 # Audio volume via pactl (PulseAudio)
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
@@ -62,6 +65,9 @@ bindsym $mod+Shift+q kill
 
 # Toggle Show / Hide state of Deadd Notification Center
 bindsym $mod+n exec --no-startup-id kill -s USR1 $(pidof deadd-notification-center)
+
+# Toggle Spotify media popup (cover art + details)
+bindsym $mod+m exec --no-startup-id $HOME/.config/i3/scripts/media-popup.sh toggle
 
 # App launcher (rofi)
 bindcode $mod+40 exec "rofi -modi drun,run -show drun"

@@ -10,7 +10,7 @@ Last verified: 2026-09-12
 |------|---------|
 | `i3/config` | i3 wm config; keybindings, workspaces, autostart |
 | `i3/keys-remap.sh` | key remapping (CapsLock→Super/Esc, Left Shift→Ctrl) |
-| `i3/scripts/` | custom scripts — `monitor-layout.sh`, `startup.sh`, `wallpaper-apply.sh`, `spotify-notify.sh` |
+| `i3/scripts/` | custom scripts — `monitor-layout.sh`, `startup.sh`, `wallpaper-apply.sh`, `spotify-notify.sh`, `media-popup.sh` |
 | `i3/layouts/` | saved workspace layouts (1, 3, 5) |
 | `i3/blocklets/` | menu scripts (e.g. `shutdown_menu`) |
 | `polybar/` | bar: pill/original configs, `launch.sh`, and CPU/RAM/GPU scripts |
@@ -56,6 +56,7 @@ Last verified: 2026-09-12
   - **Pill mode - styling:** pill backgrounds use opaque Rosepine theme base `#26233a`; CPU, RAM, and GPU use five-block meters. RAM shows only its meter; CPU and GPU show meter plus temperature.
   - **Audio module:** `[module/audio]` (custom/script, `tail = true`) runs `polybar/audio.sh`. Event-driven via `pactl subscribe` (sink/server/card events; no polling). With icons for different sources/sinks. Glyphs come from Hack Nerd Font; `config-original.ini` loads Hack NF as font-2 for this. One-shot render for testing: `audio.sh <sink-name>` prints once and exits.
   - **Media module:** `[module/media]` (custom/script, `tail = true`) runs `polybar/media.sh` as its own pill beside workspaces (`modules-left = xworkspaces pad pill-left pill-pad media pill-pad pill-right`, standard pill modules + `format-background = ${colors.pill}`; original config: `xworkspaces media`). Event-driven via `playerctl -F -p spotify metadata` (follow emits on status AND metadata changes; v2.4.1). Play/pause action icon (U+F04B/U+F04C) + `artist - title` (30-char truncation). When Spotify is not running the script prints nothing, but the surrounding static pill caps/pads still render as an empty pill shell (known trade-off). Clicks: left play/pause, right next, middle previous — all `-p spotify` so browser MPRIS players (Brave, plasma-browser-integration) are ignored. Needs `playerctl`.
+- **Media popup:** `i3/scripts/media-popup.sh` — Spotify flyout (chafa cover art + title/album/progress bar/volume/loop/shuffle), `Mod+m` → `toggle` subcommand. Floating sticky borderless Alacritty (class `media-popup`, mark `media_popup`), parked in the scratchpad when hidden. Styled by both the `for_window` rule in i3 config and the script's spawn branch (keep the two property lists in sync). Positioned per toggle relative to the focused output's rect (+60,+46) because i3 `move position` is absolute. Renders live at 1 Hz; Shares the `~/.cache/spotify-art/` cache with `spotify-notify.sh`. Needs `chafa`, `jq`. Toggle triggers: keybind only — do NOT use polybar `click-double-left`: polybar fires single-click actions on the first press of a double-click, so both would fire (play/pause + toggle).
 - `i3-msg reload` re-runs every `exec_always`, including `monitor-layout.sh auto`, which can override a manual `single` layout when both externals are docked.
 - **Notifications**: `deadd-notification-center` is the daemon; `notify-send` is the client used by `monitor-layout.sh` (guarded with `command -v`). Toggle the center with `Mod+n`.
 - **Spotify cover notifications**: `i3/scripts/spotify-notify.sh` (plain `exec` in i3 config, no dupes on reload) fires a cover-art notification on track change; only while Playing, deduped by `artist - title`. Art cached in `~/.cache/spotify-art/` keyed by Spotify image ID.
@@ -79,6 +80,8 @@ i3-msg reload                   # live-reload i3 (re-runs exec_always!)
 bash -n ~/.config/i3/scripts/monitor-layout.sh
 bash -n ~/.config/i3/scripts/startup.sh
 bash -n ~/.config/i3/scripts/wallpaper-apply.sh
+bash -n ~/.config/i3/scripts/spotify-notify.sh
+bash -n ~/.config/i3/scripts/media-popup.sh
 bash -n ~/.config/polybar/*.sh
 polybar --config ~/.config/polybar/config.ini bar
 polybar --config ~/.config/polybar/config-original.ini bar

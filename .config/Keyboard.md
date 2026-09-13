@@ -22,6 +22,12 @@ Relevant physical keyboard layout (`*` marks remapped / important keys):
 
 ## Commands for Apps
 
+### i3
+
+| Cmd | Remapped Cmd | Action |
+|-|-|-|
+| `Super+m` | `CapsLock+m` | toggle Spotify media popup |
+
 ### Terminal Copy/Paste
 
 | Cmd | Remapped Cmd | Action |
