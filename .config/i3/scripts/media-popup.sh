@@ -131,7 +131,8 @@ position_popup() {
     if [[ "$gw" =~ ^[1-9][0-9]*$ ]] && [[ "$gh" =~ ^[1-9][0-9]*$ ]]; then
         i3-msg "[con_mark=$mark] resize set $gw px $gh px" >/dev/null 2>&1
     fi
-    out=$(i3-msg -t get_workspaces 2>/dev/null | jq -r '.[] | select(.focused).output')
+    out=$(i3-msg -t get_outputs 2>/dev/null | jq -r '[.[] | select(.primary and .active)][0].name // empty')
+    [ -z "$out" ] && out=$(i3-msg -t get_workspaces 2>/dev/null | jq -r '.[] | select(.focused).output')
     rect=$(i3-msg -t get_tree 2>/dev/null | jq -r --arg o "$out" '.. | objects | select(.type? == "output" and .name? == $o) | "\(.rect.x) \(.rect.y)"')
     read -r ox oy <<<"$rect"
     [ -n "$ox" ] && i3-msg "[con_mark=$mark] move position $((ox + 60)) px $((oy + 46)) px" >/dev/null 2>&1
