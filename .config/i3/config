@@ -45,6 +45,10 @@ for_window [class="^.*"] border pixel 1
 # Window is sized to content by alacritty (window.dimensions in media-popup.sh)
 for_window [class="^media-popup$"] floating enable, sticky enable, border none, mark media_popup
 
+# Bluetooth popup: floating scratchpad flyout, toggled with $mod+b
+# Window is sized to content by alacritty (window.dimensions in bt-popup.sh)
+for_window [class="^bluetooth-popup$"] floating enable, sticky enable, border none, mark bluetooth_popup
+
 # Audio volume via pactl (PulseAudio)
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
@@ -204,6 +208,9 @@ set $script-dir $HOME/.config/i3/blocklets
 
 # Shutdown menu
 bindsym Control+$mod+Delete exec $script-dir/shutdown_menu
+
+# Bluetooth popup (connect/disconnect paired devices)
+bindsym $mod+b exec --no-startup-id $HOME/.config/i3/scripts/bt-popup.sh toggle
 
 # Color schemes for windows
 set $bgcolor    #523d6499
