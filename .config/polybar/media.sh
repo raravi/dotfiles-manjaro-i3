@@ -33,6 +33,10 @@ safe_name() {
     printf '%s' "$1" | tr -c 'A-Za-z0-9._-' '_'
 }
 
+clean_title() {
+    printf '%s' "${1#Watch }"
+}
+
 mru_front() {
     local p=$1 i out=()
     for i in "${!order[@]}"; do
@@ -132,6 +136,7 @@ while true; do
             p_status[$p]=$status
             mru_front "$p"
         fi
+        title=$(clean_title "$title")
         if [ "${p_track[$p]}" != "$artist|$title" ]; then
             p_track[$p]="$artist|$title"
             meta_dirty=1

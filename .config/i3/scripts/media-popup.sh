@@ -50,6 +50,10 @@ trunc() {
     printf '%s' "$s"
 }
 
+clean_title() {
+    printf '%s' "${1#Watch }"
+}
+
 list_players() {
     local p
     playerctl -l 2>/dev/null | while IFS= read -r p; do
@@ -100,11 +104,11 @@ meta_track() {
     [ -f "$f" ] || return 0
     IFS='|' read -r artist title <<<"$(head -n1 "$f")"
     if [ -n "$artist" ] && [ -n "$title" ]; then
-        trunc 20 "$artist — $title"
+        trunc 20 "$artist — $(clean_title "$title")"
     elif [ -n "$artist" ]; then
         trunc 20 "$artist"
     else
-        trunc 20 "$title"
+        trunc 20 "$(clean_title "$title")"
     fi
 }
 
@@ -152,7 +156,7 @@ render() {
     art_frame "$pl"
 
     printf '%b\n' "$eol"
-    printf '%b\n' "${bold}${accent}$(trunc "$max_col" "${title:-Unknown title}")${rst}${eol}"
+    printf '%b\n' "${bold}${accent}$(trunc "$max_col" "$(clean_title "${title:-Unknown title}")")${rst}${eol}"
     printf '%b\n' "${dim}$(trunc "$max_col" "${artist:-Unknown artist} — ${album:-Unknown album}")${rst}${eol}"
     printf '%b\n' "$eol"
 
