@@ -17,7 +17,7 @@ eol=$'\e[K'
 dim_cols=36
 # Right-edge alignment: popup right edge sits popup_right_off px from the
 # monitor's right edge; bottom edge popup_bottom px above it (bar ≈ 48px tall)
-popup_right_off=450
+popup_right_off=360
 popup_bottom=64
 
 # Title banner (half-block glyphs, embedded; %s-printed so backslashes are literal)
