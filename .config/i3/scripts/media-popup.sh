@@ -93,8 +93,8 @@ fallback_player() {
 
 mode_target() {
     local pl
-    pl=$(first_playing "$1") && [ -n "$pl" ] && { printf '%s' "$pl"; return; }
     [ -n "$pinned" ] && grep -qxF "$pinned" <<<"$1" && { printf '%s' "$pinned"; return; }
+    pl=$(first_playing "$1") && [ -n "$pl" ] && { printf '%s' "$pl"; return; }
     return 0
 }
 
