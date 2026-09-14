@@ -247,6 +247,11 @@ loop() {
     printf '\e[?25l'
     trap 'printf "\e[?25h"' EXIT
     while true; do
+        vis=$(i3-msg -t get_tree 2>/dev/null | jq -r '[.. | objects | select((.marks? // []) | index("media_popup"))][0].output // ""' 2>/dev/null)
+        if [ -z "$vis" ] || [[ "$vis" == __i3* ]]; then
+            pinned=""
+            force_picker=0
+        fi
         live=$(list_players)
         pl=""
         [ "$force_picker" -eq 0 ] && pl=$(mode_target "$live")
@@ -281,6 +286,7 @@ loop() {
                     B) [ "$sel" -lt $(( ${#entries[@]} - 1 )) ] && sel=$((sel + 1)) ;;
                 esac
             else
+                pinned=""
                 force_picker=0
                 i3-msg "[con_mark=$mark] move scratchpad" >/dev/null 2>&1
             fi
@@ -297,6 +303,7 @@ loop() {
                     fi
                     ;;
                 q)
+                    pinned=""
                     force_picker=0
                     i3-msg "[con_mark=$mark] move scratchpad" >/dev/null 2>&1
                     ;;
@@ -308,6 +315,7 @@ loop() {
                 p) [ -n "$pl" ] && playerctl -p "$pl" previous >/dev/null 2>&1 ;;
                 $'\t') force_picker=1 ;;
                 q)
+                    pinned=""
                     force_picker=0
                     i3-msg "[con_mark=$mark] move scratchpad" >/dev/null 2>&1
                     ;;
