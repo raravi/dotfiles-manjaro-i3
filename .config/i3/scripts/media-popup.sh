@@ -98,6 +98,21 @@ mode_target() {
     return 0
 }
 
+play_target() {
+    local pl=$1 q status
+    status=$(playerctl -p "$pl" status 2>/dev/null)
+    if [ "$status" = "Playing" ]; then
+        playerctl -p "$pl" pause >/dev/null 2>&1
+        return
+    fi
+    while IFS= read -r q; do
+        [ -n "$q" ] || continue
+        [ "$q" = "$pl" ] && continue
+        [ "$(playerctl -p "$q" status 2>/dev/null)" = "Playing" ] && playerctl -p "$q" pause >/dev/null 2>&1
+    done <<<"$(list_players)"
+    playerctl -p "$pl" play >/dev/null 2>&1
+}
+
 safe_name() {
     printf '%s' "$1" | tr -c 'A-Za-z0-9._-' '_'
 }
@@ -310,7 +325,7 @@ loop() {
             esac
         else
             case "$key" in
-                " ") [ -n "$pl" ] && playerctl -p "$pl" play-pause >/dev/null 2>&1 ;;
+                " ") [ -n "$pl" ] && play_target "$pl" ;;
                 n) [ -n "$pl" ] && playerctl -p "$pl" next >/dev/null 2>&1 ;;
                 p) [ -n "$pl" ] && playerctl -p "$pl" previous >/dev/null 2>&1 ;;
                 $'\t') force_picker=1 ;;
@@ -372,11 +387,16 @@ once() {
 }
 
 action() {
-    local live pl
+    local live pl op=${2:-play-pause}
     live=$(list_players)
     pl=$(first_playing "$live")
     [ -z "$pl" ] && pl=$(fallback_player "$live")
-    [ -n "$pl" ] && playerctl -p "$pl" "${2:-play-pause}" >/dev/null 2>&1
+    [ -z "$pl" ] && return
+    if [ "$op" = play-pause ]; then
+        play_target "$pl"
+    else
+        playerctl -p "$pl" "$op" >/dev/null 2>&1
+    fi
 }
 
 case "${1:-loop}" in
