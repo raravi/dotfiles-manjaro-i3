@@ -33,8 +33,12 @@ safe_name() {
     printf '%s' "$1" | tr -c 'A-Za-z0-9._-' '_'
 }
 
-clean_title() {
-    printf '%s' "${1#Watch }"
+clean_title() {  # $1=player $2=title; strips browser page-title cruft, browser players only
+    case $1 in
+        brave* | chromium* | google-chrome* | microsoft-edge* | firefox* | librewolf* | vivaldi* | opera* | epiphany* | qutebrowser*)
+            printf '%s' "${2#Watch }" ;;
+        *) printf '%s' "$2" ;;
+    esac
 }
 
 mru_front() {
@@ -136,7 +140,7 @@ while true; do
             p_status[$p]=$status
             mru_front "$p"
         fi
-        title=$(clean_title "$title")
+        title=$(clean_title "$p" "$title")
         if [ "${p_track[$p]}" != "$artist|$title" ]; then
             p_track[$p]="$artist|$title"
             meta_dirty=1

@@ -50,8 +50,12 @@ trunc() {
     printf '%s' "$s"
 }
 
-clean_title() {
-    printf '%s' "${1#Watch }"
+clean_title() {  # $1=player $2=title; strips browser page-title cruft, browser players only
+    case $1 in
+        brave* | chromium* | google-chrome* | microsoft-edge* | firefox* | librewolf* | vivaldi* | opera* | epiphany* | qutebrowser*)
+            printf '%s' "${2#Watch }" ;;
+        *) printf '%s' "$2" ;;
+    esac
 }
 
 list_players() {
@@ -104,11 +108,11 @@ meta_track() {
     [ -f "$f" ] || return 0
     IFS='|' read -r artist title <<<"$(head -n1 "$f")"
     if [ -n "$artist" ] && [ -n "$title" ]; then
-        trunc 20 "$artist — $(clean_title "$title")"
+        trunc 20 "$artist — $(clean_title "$1" "$title")"
     elif [ -n "$artist" ]; then
         trunc 20 "$artist"
     else
-        trunc 20 "$(clean_title "$title")"
+        trunc 20 "$(clean_title "$1" "$title")"
     fi
 }
 
@@ -156,7 +160,7 @@ render() {
     art_frame "$pl"
 
     printf '%b\n' "$eol"
-    printf '%b\n' "${bold}${accent}$(trunc "$max_col" "$(clean_title "${title:-Unknown title}")")${rst}${eol}"
+    printf '%b\n' "${bold}${accent}$(trunc "$max_col" "$(clean_title "$pl" "${title:-Unknown title}")")${rst}${eol}"
     printf '%b\n' "${dim}$(trunc "$max_col" "${artist:-Unknown artist} — ${album:-Unknown album}")${rst}${eol}"
     printf '%b\n' "$eol"
 
