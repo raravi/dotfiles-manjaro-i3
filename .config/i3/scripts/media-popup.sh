@@ -340,11 +340,8 @@ loop() {
 }
 
 position_popup() {
-    local out rect gw gh ox oy ow oh
-    read -r gw gh <<<"$(i3-msg -t get_tree 2>/dev/null | jq -r '[.. | objects | select((.marks? // []) | index("media_popup"))][0].geometry | "\(.width // 0) \(.height // 0)"' 2>/dev/null)"
-    if [[ "$gw" =~ ^[1-9][0-9]*$ ]] && [[ "$gh" =~ ^[1-9][0-9]*$ ]]; then
-        i3-msg "[con_mark=$mark] resize set $gw px $gh px" >/dev/null 2>&1
-    fi
+    local out rect gh ox oy ow oh
+    read -r gh <<<"$(i3-msg -t get_tree 2>/dev/null | jq -r '[.. | objects | select((.marks? // []) | index("media_popup"))][0].rect.height // 0' 2>/dev/null)"
     out=$(i3-msg -t get_outputs 2>/dev/null | jq -r '[.[] | select(.primary and .active)][0].name // empty')
     [ -z "$out" ] && out=$(i3-msg -t get_workspaces 2>/dev/null | jq -r '.[] | select(.focused).output')
     rect=$(i3-msg -t get_tree 2>/dev/null | jq -r --arg o "$out" '.. | objects | select(.type? == "output" and .name? == $o) | "\(.rect.x) \(.rect.y) \(.rect.width) \(.rect.height)"')
