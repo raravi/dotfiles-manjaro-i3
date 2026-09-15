@@ -75,9 +75,10 @@ launch_apps() {
         env WINIT_X11_SCALE_FACTOR=1 alacritty &
         brave &
         notion-app --ignore-gpu-blocklist \
-            --enable-features=VaapiVideoDecoder \
+            --enable-features=AcceleratedVideoDecodeLinuxGL,AcceleratedVideoDecodeLinuxZeroCopyGL,AcceleratedVideoEncoder \
             --enable-gpu-rasterization --enable-zero-copy &
-        discord --ignore-gpu-blocklist --enable-features=VaapiVideoDecoder \
+        discord --ignore-gpu-blocklist \
+            --enable-features=AcceleratedVideoDecodeLinuxGL,AcceleratedVideoDecodeLinuxZeroCopyGL,AcceleratedVideoEncoder \
             --enable-gpu-rasterization --enable-zero-copy &
     ) 2>/dev/null || true
 }
