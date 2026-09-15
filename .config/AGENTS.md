@@ -2,7 +2,7 @@
 
 Keeps an agent grounded when modifying this user's dotfiles. Read me first.
 
-Last verified: 2026-09-15
+Last verified: 2026-09-16
 
 ## Layout overview
 
@@ -72,6 +72,13 @@ Last verified: 2026-09-15
   - Only `launch.sh` + `config.json` are user files (tracked in the dotfiles repo, untracked in the clone).
   - Never `config add .config/xborder/` wholesale — the nested `.git` gets added as a gitlink. Add files individually.
   - `launch.sh` runs the system `/bin/python3`, not the clone's `.venv`.
+
+## Electron GPU & picom gotcha (2026-09-16 investigation)
+
+- **startup.sh Electron flags** (`notion-app`, `discord`): `--disable-features=UseOzonePlatform` and `--use-gl=desktop` are dead (feature removed in Chromium M111; GL goes through ANGLE) — don't re-add. `VaapiVideoDecoder` is vestigial too; the real Linux VAAPI gates are `AcceleratedVideoDecodeLinuxGL`, `AcceleratedVideoDecodeLinuxZeroCopyGL`, `AcceleratedVideoEncoder` — all three now pinned in startup.sh, Brave-style. Verified empirically: `strings` on the app binaries + an electron41 `app.getGPUFeatureStatus()` probe (bare: video_decode already default-on, video_encode off; with the flags: both on).
+- **Compositor restarts can poison Chromium GPU processes**: `pkill picom` while Discord/Notion/Brave are running can crash the app's GPU process; Chromium then silently downgrades that session to software compositing (`--disable-gpu-compositing` appears in the renderer's cmdline) and never self-recovers — a full app restart is required. Check with `tr '\0' '\n' </proc/<renderer-pid>/cmdline | grep disable-gpu-compositing`. Expect this after every picom restart; if an app feels sluggish afterwards, restart the app, not the compositor.
+- **Discord hover/scroll spikes** in `intel_gpu_top` Render/3D (Xorg + picom, ~80%) are Discord's own damage pattern (its UI repaints large regions per pointer move; Brave shows the same effect at ~20-40%). Tested and reverted as measured no-ops: `vsync`, blur-strength 4→2, EGL backend; `glx-no-rebind-pixmap` is a deprecated no-op in picom v13. Blur-exclude + 100% opacity for discord/notion were also tried and reverted at user request — no measurable gain (both windows are fully opaque anyway; Xorg's pixmap-upload path is the irreducible cost). Keep `picom.conf` as-is unless picom internals change.
+- Diagnosis recipe for engine-load questions: (1) differential test — `pkill picom`, re-test, restart picom; spike persisting without picom = app-side. (2) per-process view in `sudo intel_gpu_top` names the exact consumer under each engine. (3) compare the suspect app's renderer cmdline against Brave's (reference Chromium on this box).
 
 ## Verification
 
