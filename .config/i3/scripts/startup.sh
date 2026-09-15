@@ -74,11 +74,10 @@ launch_apps() {
         env WINIT_X11_SCALE_FACTOR=1 alacritty &
         env WINIT_X11_SCALE_FACTOR=1 alacritty &
         brave &
-        notion-app --ignore-gpu-blocklist --disable-features=UseOzonePlatform \
-            --enable-features=VaapiVideoDecoder --use-gl=desktop \
+        notion-app --ignore-gpu-blocklist \
+            --enable-features=VaapiVideoDecoder \
             --enable-gpu-rasterization --enable-zero-copy &
-        discord --ignore-gpu-blocklist --disable-features=UseOzonePlatform \
-            --enable-features=VaapiVideoDecoder --use-gl=desktop \
+        discord --ignore-gpu-blocklist --enable-features=VaapiVideoDecoder \
             --enable-gpu-rasterization --enable-zero-copy &
     ) 2>/dev/null || true
 }
