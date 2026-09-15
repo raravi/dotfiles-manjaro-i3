@@ -25,6 +25,12 @@ dim_lines=28
 popup_x_off=128
 popup_bottom=64
 
+# Title banner (picker only; half-block glyphs)
+BANNER=(
+'█▄ ▄█ ▄▀▀ █▀▀█ ▀ ▄▀▄'
+'█ ▀ █ ▀▄▄ █▄▄█ █ █▀█'
+)
+
 pinned=""
 entries=()
 sel=0
@@ -236,7 +242,9 @@ clamp_sel() {
 render_picker() {
     local i p arrow
     printf '%b\n' "$eol"
-    printf '%b\n' "${bold}${accent}media${rst}${dim} · pick a player${rst}${eol}"
+    printf '%b\n' "${bold}${accent}${BANNER[0]}${rst}${eol}"
+    printf '%b\n' "${bold}${accent}${BANNER[1]}${rst}${eol}"
+    printf '%b\n' "${dim}· pick a player${rst}${eol}"
     printf '%b\n' "$eol"
     if [ "${#entries[@]}" -eq 0 ]; then
         printf '%b\n' "${dim}( no media players )${rst}${eol}"
