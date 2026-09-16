@@ -30,19 +30,7 @@ Leave a field empty if it does not apply (e.g. `Action` for a fixed issue).
   - **Verified:** New Alacritty windows retain a consistent font size across monitor modes after adjusting the configured font size.
   - **Rollback:**
 
-- [ ] ISSUE 2: Improve runtime `DP-1-0` dock detection.
-  - **Status:** Not started.
-  - **Action:** Next time `DP-1-0` remains disconnected, capture diagnostics before reconnecting the dock:
-    - `xrandr --query`
-    - `xrandr --listproviders`
-    - `journalctl -b -k --no-pager | grep -iE 'drm|nvidia|displayport|hotplug'`
-  - **Original issue:** After a cold boot, `DP-1-0` can sometimes remain disconnected even though the dock is connected. Reconnecting may fix the normal runtime case, but does not fix the boot-framebuffer case described in Issue 3.
-  - **Likely diagnosis:** This is likely a dock/NVIDIA DisplayPort link-training or hotplug event problem, not merely a delayed `xrandr` query. If `DP-1-0` is absent entirely, `monitor-layout.sh` cannot enable it; polling or `xrandr --output DP-1-0 --auto` will not help until the connector is registered.
-  - **Changes done:**
-  - **Verified:**
-  - **Rollback:**
-
-- [ ] ISSUE 3: Verify permanent NVIDIA DRM KMS stability across multiple boots.
+- [ ] ISSUE 2: Verify permanent NVIDIA DRM KMS stability across multiple boots.
   - **Status:** Monitoring.
   - **Action:** Continue testing cold boots and reboots with the dock connected; report any failure. If it recurs, test the Plymouth-disabled boot (see Proposed fix below) before trying any other mitigation. Mark `[x]` only after several boots pass without the boot-screen issue recurring.
   - **Original issue:** After some logins, the external monitors remained on the Manjaro boot/loading screen while only `eDP-1` was available to Xorg/i3.
@@ -63,7 +51,7 @@ Leave a field empty if it does not apply (e.g. `Action` for a fixed issue).
     - **Temporary fallback:** Remove `nvidia_drm.modeset=1` from the GRUB entry by pressing `e`, then boot with `Ctrl+X` or `F10`.
     - **Permanent rollback:** Restore `/etc/default/grub.before-nvidia-kms` if available, run `sudo grub-mkconfig -o /boot/grub/grub.cfg`, and reboot.
 
-- [ ] ISSUE 4: `Ctrl+S` XOFF terminal freeze.
+- [ ] ISSUE 3: `Ctrl+S` XOFF terminal freeze.
   - **Status:** Monitoring.
   - **Action:** Keep the flow-control tweak in `~/.zshrc` and monitor new shells for regressions:
     - Applied with `stty -ixon -ixoff` (`Ctrl+S` and `Ctrl+Q` both freed).

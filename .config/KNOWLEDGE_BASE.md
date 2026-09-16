@@ -64,7 +64,8 @@ Every entry follows the same template; include a section only when it has conten
 
 ### Symptom
 
-- On some boots the portrait monitor (`DP-1-0`, hanging off the USB-C hub) is missing while the hub's USB peripherals (keyboard/mouse/webcam) still work — the hub came up **USB2-only** and the DP alt-mode was never established.
+- On some boots the portrait monitor (`DP-1-0`, hanging off the USB-C hub) is missing while the hub's USB peripherals (keyboard/mouse/webcam) still work — the hub came up **USB2-only** and the DP alt-mode was never established. In this failure mode `HDMI-1-0` (directly wired to the laptop, not via the hub) stays connected.
+- Not to be confused with the separate **boot-framebuffer** failure (externals stuck on the Manjaro boot screen; NVIDIA DRM KMS/SDDM init — tracked in ISSUES.md): a hub replug does not apply there.
 - Quick detection: `lsusb -d 2109:0103` (billboard present) + bus 2 empty + `xrandr` shows `DP-1-0 disconnected`.
 
 ### Investigation
