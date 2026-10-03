@@ -19,6 +19,8 @@ exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
 # Set Screen layout
 # auto: applies 'multi' when both external displays are docked, otherwise 'single'
 exec_always --no-startup-id $HOME/.config/i3/scripts/monitor-layout.sh auto
+# Volume OSD (xob overlay bar for default-sink volume/mute)
+exec_always --no-startup-id $HOME/.config/i3/scripts/volume-osd.sh
 # Cycle between single (laptop only), multi (docked), and all (laptop + docked) layouts
 bindsym $mod+Shift+m exec --no-startup-id $HOME/.config/i3/scripts/monitor-layout.sh cycle
 bindsym $mod+Shift+p exec --no-startup-id $HOME/.config/polybar/launch.sh toggle

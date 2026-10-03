@@ -108,6 +108,11 @@ wallpaper_apply() {
     "$HOME/.config/i3/scripts/wallpaper-apply.sh"
 }
 
+restart_osd() {
+    # Regenerate the xob volume OSD geometry for the new primary monitor
+    "$HOME/.config/i3/scripts/volume-osd.sh" &
+}
+
 case "${1:-auto}" in
     single)
         apply_single
@@ -190,4 +195,6 @@ log "calling wallpaper_apply"
 wallpaper_apply
 wallpaper_status=$?
 log "wallpaper_apply completed with status $wallpaper_status"
+log "restarting volume osd"
+restart_osd
 

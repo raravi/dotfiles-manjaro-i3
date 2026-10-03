@@ -44,6 +44,11 @@ For better sound
 pamac install easyeffects lsp-plugins-lv2 calf
 ```
 
+For the volume OSD overlay bar (xob, AUR)
+```bash
+pamac build xob
+```
+
 Browsers
 ```bash
 pamac install brave-browser
