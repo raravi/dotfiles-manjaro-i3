@@ -61,8 +61,9 @@ printf '%s\n' "$$" > "$pidfile"
 
 # Bar geometry — absolute pixels (verified: xob's relative=0 offsets anchor the
 # box's left/top edge). 64px bottom gap matches popup_bottom (polybar ~48px).
-bar_len=320
-bar_thick=16
+# thickness = 2x picom's corner-radius (14) so the bar is a true capsule pill.
+bar_len=180
+bar_thick=28
 bar_gap=64
 
 read -r pw ph px py <<<"$(xrandr --query 2>/dev/null | awk '/ connected primary / {
